@@ -1,7 +1,9 @@
 package com.github.krzkuc1985.rest;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @MappedSuperclass
 public abstract class AbstractEntity {
 
