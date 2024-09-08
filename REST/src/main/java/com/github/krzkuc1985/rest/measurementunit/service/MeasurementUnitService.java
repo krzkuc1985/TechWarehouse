@@ -3,7 +3,6 @@ package com.github.krzkuc1985.rest.measurementunit.service;
 import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitRequest;
 import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitResponse;
 import com.github.krzkuc1985.rest.measurementunit.model.MeasurementUnit;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
