@@ -18,24 +18,24 @@ import java.util.List;
 @RequestMapping("/measurement-units")
 public class MeasurementUnitController {
 
-    private final MeasurementUnitService measurementUnitService;
+    private final MeasurementUnitService service;
 
     @GetMapping
     public ResponseEntity<List<MeasurementUnitResponse>> getAll() {
-        List<MeasurementUnitResponse> responses = measurementUnitService.findAll();
+        List<MeasurementUnitResponse> responses = service.findAll();
         return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<MeasurementUnitResponse> getById(@PathVariable Long id) {
-        MeasurementUnitResponse response = measurementUnitService.findById(id);
+        MeasurementUnitResponse response = service.findById(id);
         return ResponseEntity.ok().body(response);
     }
 
     @Transactional
     @PostMapping
     public ResponseEntity<MeasurementUnitResponse> create(@Valid @RequestBody MeasurementUnitRequest measurementUnitRequest) {
-        MeasurementUnitResponse response = measurementUnitService.create(measurementUnitRequest);
+        MeasurementUnitResponse response = service.create(measurementUnitRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -47,14 +47,14 @@ public class MeasurementUnitController {
     @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<MeasurementUnitResponse> update(@PathVariable Long id,@Valid @RequestBody MeasurementUnitRequest measurementUnitRequest) {
-        MeasurementUnitResponse response = measurementUnitService.update(id, measurementUnitRequest);
+        MeasurementUnitResponse response = service.update(id, measurementUnitRequest);
         return ResponseEntity.ok().body(response);
     }
 
     @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        measurementUnitService.delete(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
