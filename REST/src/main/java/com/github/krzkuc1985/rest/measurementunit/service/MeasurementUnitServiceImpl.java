@@ -45,7 +45,6 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService {
     public MeasurementUnitResponse update(Long id, MeasurementUnitRequest measurementUnitRequest) {
         MeasurementUnit measurementUnit = findByIdOrThrowException(id);
         measurementUnit.setSymbol(measurementUnitRequest.getSymbol());
-        measurementUnit.setVersion(measurementUnit.getVersion());
         return mapper.mapToResponse(repository.save(measurementUnit));
     }
 
