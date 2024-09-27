@@ -15,6 +15,7 @@ public class MeasurementUnitMapper {
     public MeasurementUnitResponse mapToResponse(MeasurementUnit measurementUnit) {
         return MeasurementUnitResponse.builder()
                 .id(measurementUnit.getId())
+                .version(measurementUnit.getVersion())
                 .symbol(measurementUnit.getSymbol())
                 .build();
     }

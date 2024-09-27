@@ -4,16 +4,15 @@ import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitRequest;
 import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitResponse;
 import com.github.krzkuc1985.rest.measurementunit.service.MeasurementUnitService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/measurement-units")
 public class MeasurementUnitController {
@@ -32,7 +31,6 @@ public class MeasurementUnitController {
         return ResponseEntity.ok().body(response);
     }
 
-    @Transactional
     @PostMapping
     public ResponseEntity<MeasurementUnitResponse> create(@Valid @RequestBody MeasurementUnitRequest measurementUnitRequest) {
         MeasurementUnitResponse response = service.create(measurementUnitRequest);
@@ -44,14 +42,12 @@ public class MeasurementUnitController {
         return ResponseEntity.created(location).body(response);
     }
 
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<MeasurementUnitResponse> update(@PathVariable Long id,@Valid @RequestBody MeasurementUnitRequest measurementUnitRequest) {
         MeasurementUnitResponse response = service.update(id, measurementUnitRequest);
         return ResponseEntity.ok().body(response);
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
