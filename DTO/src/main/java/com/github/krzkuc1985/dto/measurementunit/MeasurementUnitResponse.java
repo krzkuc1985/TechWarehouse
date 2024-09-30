@@ -12,8 +12,8 @@ public class MeasurementUnitResponse extends AbstractResponse {
     private String symbol;
 
     @Builder
-    public MeasurementUnitResponse(Long id, Long version, String symbol) {
-        super(id, version);
+    public MeasurementUnitResponse(Long id, String symbol) {
+        super(id);
         this.symbol = symbol;
     }
 }

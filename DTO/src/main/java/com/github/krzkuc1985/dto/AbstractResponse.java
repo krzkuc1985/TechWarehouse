@@ -11,6 +11,4 @@ public abstract class AbstractResponse {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("version")
-    private Long version;
 }
