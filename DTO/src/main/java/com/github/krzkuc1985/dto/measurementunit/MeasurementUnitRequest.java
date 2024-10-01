@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class MeasurementUnitRequest extends AbstractRequest {
 
-    @NotBlank
+    @NotBlank(message = "Symbol is mandatory")
     private String symbol;
 }
