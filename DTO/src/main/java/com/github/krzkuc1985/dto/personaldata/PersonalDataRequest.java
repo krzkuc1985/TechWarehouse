@@ -3,9 +3,9 @@ package com.github.krzkuc1985.dto.personaldata;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class PersonalDataRequest {
 
     @NotBlank(message = "First name is mandatory")
