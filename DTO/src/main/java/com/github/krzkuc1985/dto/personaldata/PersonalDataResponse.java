@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Builder
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonalDataResponse {
 
