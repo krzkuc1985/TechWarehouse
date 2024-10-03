@@ -13,9 +13,14 @@ public class PermissionResponse extends AbstractResponse {
     @Schema(description = "Name of the permission", example = "ADD_MEASUREMENT_UNIT")
     private String name;
 
+    @JsonProperty("category")
+    @Schema(description = "Category of the permission", example = "MEASUREMENT_UNIT")
+    private String category;
+
     @Builder
-    public PermissionResponse(Long id, String name) {
+    public PermissionResponse(Long id, String name, String category) {
         super(id);
         this.name = name;
+        this.category = category;
     }
 }

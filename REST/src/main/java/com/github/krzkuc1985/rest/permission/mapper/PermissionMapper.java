@@ -15,6 +15,7 @@ public class PermissionMapper {
         return PermissionResponse.builder()
                 .id(Permission.getId())
                 .name(Permission.getName())
+                .category(Permission.getCategory())
                 .build();
     }
 

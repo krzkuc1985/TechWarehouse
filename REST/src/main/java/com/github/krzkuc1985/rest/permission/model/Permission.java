@@ -16,4 +16,7 @@ public class Permission extends AbstractEntity {
     @Column(unique = true)
     private String name;
 
+    @NotBlank
+    private String category;
+
 }
