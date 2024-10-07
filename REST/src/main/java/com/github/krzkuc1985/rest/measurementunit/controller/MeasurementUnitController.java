@@ -65,7 +65,7 @@ public class MeasurementUnitController {
     })
     public ResponseEntity<MeasurementUnitResponse> create(
             @RequestBody(description = "Request body containing the details of the new measurement unit", required = true)
-            @Valid MeasurementUnitRequest request) {
+            @Valid @org.springframework.web.bind.annotation.RequestBody MeasurementUnitRequest request) {
         MeasurementUnitResponse response = service.create(request);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
