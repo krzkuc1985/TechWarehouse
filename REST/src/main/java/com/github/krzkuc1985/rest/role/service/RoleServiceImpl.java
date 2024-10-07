@@ -64,7 +64,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void addPermissionToRole(Long id, List<PermissionRequest> permissionRequests) {
-        Role role = repository.findById(id).orElseThrow((EntityNotFoundException::new));
+        Role role = findByIdOrThrowException(id);
         Set<Permission> permissions = permissionRequests.stream()
                 .map(authorityName -> permissionRepository.findByName(authorityName.getName())
                         .orElseThrow(() -> new RuntimeException("Authority not found: " + authorityName.getName())))
@@ -77,7 +77,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void removePermissionFromRole(Long id, List<PermissionRequest> permissionRequests) {
-        Role role = repository.findById(id).orElseThrow((EntityNotFoundException::new));
+        Role role = findByIdOrThrowException(id);
         Set<Permission> permissions = permissionRequests.stream()
                 .map(authorityName -> permissionRepository.findByName(authorityName.getName())
                         .orElseThrow(() -> new RuntimeException("Authority not found: " + authorityName.getName())))
