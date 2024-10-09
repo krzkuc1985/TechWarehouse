@@ -12,12 +12,12 @@ import java.util.List;
 @Service
 public class PermissionServiceImpl implements PermissionService{
 
-    private final PermissionRepository repository;
-    private final PermissionMapper mapper;
+    private final PermissionRepository permissionRepository;
+    private final PermissionMapper permissionMapper;
 
     @Override
     public List<PermissionResponse> findAll() {
-        return mapper.mapToResponse(repository.findAll());
+        return permissionMapper.mapToResponse(permissionRepository.findAll());
     }
 
 }
