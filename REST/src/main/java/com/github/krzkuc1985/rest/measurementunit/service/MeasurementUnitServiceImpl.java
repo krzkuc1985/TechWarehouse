@@ -16,28 +16,28 @@ import java.util.List;
 @Service
 public class MeasurementUnitServiceImpl implements MeasurementUnitService {
 
-    private final MeasurementUnitRepository repository;
-    private final MeasurementUnitMapper mapper;
+    private final MeasurementUnitRepository measurementUnitRepository;
+    private final MeasurementUnitMapper measurementUnitMapper;
 
     @Override
     public MeasurementUnit findByIdOrThrowException(Long id) {
-        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return measurementUnitRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public MeasurementUnitResponse findById(Long id) {
-        return mapper.mapToResponse(findByIdOrThrowException(id));
+        return measurementUnitMapper.mapToResponse(findByIdOrThrowException(id));
     }
 
     @Override
     public List<MeasurementUnitResponse> findAll() {
-        return mapper.mapToResponse(repository.findAll());
+        return measurementUnitMapper.mapToResponse(measurementUnitRepository.findAll());
     }
 
     @Override
     @Transactional
     public MeasurementUnitResponse create(MeasurementUnitRequest measurementUnitRequest) {
-        return mapper.mapToResponse(repository.save(mapper.mapToEntity(measurementUnitRequest)));
+        return measurementUnitMapper.mapToResponse(measurementUnitRepository.save(measurementUnitMapper.mapToEntity(measurementUnitRequest)));
     }
 
     @Override
@@ -45,13 +45,13 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService {
     public MeasurementUnitResponse update(Long id, MeasurementUnitRequest measurementUnitRequest) {
         MeasurementUnit measurementUnit = findByIdOrThrowException(id);
         measurementUnit.setSymbol(measurementUnitRequest.getSymbol());
-        return mapper.mapToResponse(repository.save(measurementUnit));
+        return measurementUnitMapper.mapToResponse(measurementUnitRepository.save(measurementUnit));
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         MeasurementUnit measurementUnit = findByIdOrThrowException(id);
-        repository.delete(measurementUnit);
+        measurementUnitRepository.delete(measurementUnit);
     }
 }
