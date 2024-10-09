@@ -1,6 +1,7 @@
 package com.github.krzkuc1985.rest.role.controller;
 
 import com.github.krzkuc1985.dto.permission.PermissionRequest;
+import com.github.krzkuc1985.dto.permission.PermissionResponse;
 import com.github.krzkuc1985.dto.role.RoleRequest;
 import com.github.krzkuc1985.dto.role.RoleResponse;
 import com.github.krzkuc1985.rest.role.service.RoleService;
@@ -104,6 +105,19 @@ public class RoleController {
             @PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/permissions")
+    @Operation(summary = "Get permissions from a role", description = "Returns a list of permissions from an existing role by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of permissions returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Role not found", content = @Content)
+    })
+    public ResponseEntity<List<PermissionResponse>> getPermissions(
+            @Parameter(description = "ID of the role to retrieve permissions from", required = true)
+            @PathVariable Long id) {
+        List<PermissionResponse> responses = service.getPermissionFromRole(id);
+        return ResponseEntity.ok().body(responses);
     }
 
     @PostMapping("/{id}/permissions")
