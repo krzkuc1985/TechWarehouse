@@ -41,15 +41,15 @@ INSERT INTO role_permissions (role_id, permission_id)
 VALUES (2, 2);
 
 -- INSERT INTO employee
-INSERT INTO employee (version, first_name, last_name, email, country, city, street, street_number, flat_number, postal_code,
+INSERT INTO employee (version, first_name, last_name, phone_number, email, country, city, street, street_number, flat_number, postal_code,
                       login, password)
-VALUES (1, 'Jan', 'Kowalski', 'jan.kowalski@example.com', 'Poland', 'Warsaw', 'Główna', '1', '1A', '00-001', 'jk',
+VALUES (1, 'Jan', 'Kowalski', '+48111222333','jan.kowalski@example.com', 'Poland', 'Warsaw', 'Główna', '1', '1A', '00-001', 'jk',
         '$2a$12$a89eFUCJqs2P6SRuTZIKh.M/dSYWO0UqrwbJq85xGGMCP8nklLNWi'),                --pass
-       (1, 'Anna', 'Nowak', 'anna.nowak@example.com', 'Poland', 'Krakow', 'Śmieszna', '2', '2B', '00-002', 'an',
+       (1, 'Anna', 'Nowak', '+48222333444', 'anna.nowak@example.com', 'Poland', 'Krakow', 'Śmieszna', '2', '2B', '00-002', 'an',
         '$2a$12$a89eFUCJqs2P6SRuTZIKh.M/dSYWO0UqrwbJq85xGGMCP8nklLNWi'),                --pass
-       (1, 'Piotr', 'Wiśniewski', 'piotr.wisniewski@example.com', 'Poland', 'Gdansk', 'Kinowa', '3', '3C', '00-003',
+       (1, 'Piotr', 'Wiśniewski', '+48333444555', 'piotr.wisniewski@example.com', 'Poland', 'Gdansk', 'Kinowa', '3', '3C', '00-003',
         'pwisniewski', '$2a$12$a89eFUCJqs2P6SRuTZIKh.M/dSYWO0UqrwbJq85xGGMCP8nklLNWi'), --pass
-       (1, 'Katarzyna', 'Wójcik', 'katarzyna.wojcik@example.com', 'Poland', 'Wroclaw', 'Niska', '4', NULL, '00-004',
+       (1, 'Katarzyna', 'Wójcik', '+48333444556','katarzyna.wojcik@example.com', 'Poland', 'Wroclaw', 'Niska', '4', NULL, '00-004',
         'kwojcik', '$2a$12$a89eFUCJqs2P6SRuTZIKh.M/dSYWO0UqrwbJq85xGGMCP8nklLNWi'); --pass
 
 -- INSERT INTO employee_roles
