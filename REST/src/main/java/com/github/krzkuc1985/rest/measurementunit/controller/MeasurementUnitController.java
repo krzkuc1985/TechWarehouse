@@ -87,7 +87,7 @@ public class MeasurementUnitController {
             @Parameter(description = "ID of the measurement unit to update", required = true)
             @PathVariable Long id,
             @RequestBody(description = "Request body containing the updated details of the measurement unit", required = true)
-            @Valid MeasurementUnitRequest request) {
+            @Valid @org.springframework.web.bind.annotation.RequestBody MeasurementUnitRequest request) {
         MeasurementUnitResponse response = service.update(id, request);
         return ResponseEntity.ok().body(response);
     }
