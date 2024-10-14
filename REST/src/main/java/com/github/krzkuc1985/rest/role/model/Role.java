@@ -3,12 +3,16 @@ package com.github.krzkuc1985.rest.role.model;
 import com.github.krzkuc1985.rest.AbstractEntity;
 import com.github.krzkuc1985.rest.permission.model.Permission;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Role extends AbstractEntity {
