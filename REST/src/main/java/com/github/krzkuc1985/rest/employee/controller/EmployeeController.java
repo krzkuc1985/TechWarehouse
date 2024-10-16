@@ -1,8 +1,13 @@
 package com.github.krzkuc1985.rest.employee.controller;
 
+import com.github.krzkuc1985.dto.address.AddressRequest;
+import com.github.krzkuc1985.dto.address.AddressResponse;
 import com.github.krzkuc1985.dto.employee.EmployeeRequest;
 import com.github.krzkuc1985.dto.employee.EmployeeResponse;
+import com.github.krzkuc1985.dto.logindata.LoginDataRequest;
+import com.github.krzkuc1985.dto.logindata.LoginDataResponse;
 import com.github.krzkuc1985.dto.role.RoleRequest;
+import com.github.krzkuc1985.dto.role.RoleResponse;
 import com.github.krzkuc1985.rest.employee.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -104,6 +109,66 @@ public class EmployeeController {
             @PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/address")
+    @Operation(summary = "Get employee address", description = "Returns the address of an employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee address returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+    })
+    public ResponseEntity<AddressResponse> getAddress(
+            @Parameter(description = "ID of the employee to retrieve address", required = true)
+            @PathVariable Long id) {
+        AddressResponse response = service.getEmployeeAddress(id);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/{id}/address")
+    @Operation(summary = "Update employee address", description = "Updates the address of an existing employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee address updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid address data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Employee already exists or optimistic lock conflict", content = @Content)
+    })
+    public ResponseEntity<AddressResponse> updateAddress(
+            @Parameter(description = "ID of the employee to update address", required = true)
+            @PathVariable Long id,
+            @RequestBody(description = "Request body containing the updated details of the address", required = true)
+            @Valid @org.springframework.web.bind.annotation.RequestBody AddressRequest addressRequest) {
+        AddressResponse addressResponse = service.updateEmployeeAddress(id, addressRequest);
+        return ResponseEntity.ok().body(addressResponse);
+    }
+
+    @PutMapping("/{id}/login")
+    @Operation(summary = "Update employee login data", description = "Updates the login data of an existing employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee login data updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid login data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Employee already exists or optimistic lock conflict", content = @Content)
+    })
+    public ResponseEntity<LoginDataResponse> updateLoginData(
+            @Parameter(description = "ID of the employee to update login data", required = true)
+            @PathVariable Long id,
+            @RequestBody(description = "Request body containing the updated details of the login data", required = true)
+            @Valid @org.springframework.web.bind.annotation.RequestBody LoginDataRequest loginDataRequest) {
+        LoginDataResponse loginDataResponse = service.updateEmployeeLoginData(id, loginDataRequest);
+        return ResponseEntity.ok().body(loginDataResponse);
+    }
+
+    @GetMapping("/{id}/roles")
+    @Operation(summary = "Get employee roles", description = "Returns the roles assigned to an employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee roles returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
+    })
+    public ResponseEntity<List<RoleResponse>> getRoles(
+            @Parameter(description = "ID of the employee to retrieve roles", required = true)
+            @PathVariable Long id) {
+        List<RoleResponse> response = service.getEmployeeRoles(id);
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/{id}/roles")

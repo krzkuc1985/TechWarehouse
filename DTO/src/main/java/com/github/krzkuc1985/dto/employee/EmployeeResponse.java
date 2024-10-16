@@ -8,10 +8,16 @@ import com.github.krzkuc1985.dto.logindata.LoginDataResponse;
 import com.github.krzkuc1985.dto.personaldata.PersonalDataResponse;
 import com.github.krzkuc1985.dto.role.RoleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeResponse extends AbstractResponse {
 
