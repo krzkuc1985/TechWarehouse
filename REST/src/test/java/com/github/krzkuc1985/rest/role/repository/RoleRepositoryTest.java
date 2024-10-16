@@ -1,6 +1,5 @@
 package com.github.krzkuc1985.rest.role.repository;
 
-import com.github.krzkuc1985.rest.permission.model.Permission;
 import com.github.krzkuc1985.rest.role.model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,7 @@ class RoleRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        role = new Role("ADMIN", new HashSet<Permission>());
+        role = new Role("ADMIN", new HashSet<>());
     }
 
     @Test
