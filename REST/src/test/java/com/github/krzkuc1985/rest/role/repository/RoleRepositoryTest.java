@@ -65,6 +65,22 @@ class RoleRepositoryTest {
     }
 
     @Test
+    @DisplayName("should update Role name")
+    void updateRoleName() {
+        // given
+        Role savedRole = roleRepository.save(role);
+
+        // when
+        savedRole.setName("USER");
+        roleRepository.save(savedRole);
+        Optional<Role> updatedRole = roleRepository.findById(savedRole.getId());
+
+        // then
+        assertTrue(updatedRole.isPresent());
+        assertEquals("USER", updatedRole.get().getName());
+    }
+
+    @Test
     @DisplayName("should return empty when Role not found by ID")
     void findById_NotFound() {
         // when
