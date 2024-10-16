@@ -1,15 +1,12 @@
 package com.github.krzkuc1985.rest.employee.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.krzkuc1985.dto.address.AddressRequest;
 import com.github.krzkuc1985.dto.address.AddressResponse;
 import com.github.krzkuc1985.dto.employee.EmployeeRequest;
 import com.github.krzkuc1985.dto.employee.EmployeeResponse;
-import com.github.krzkuc1985.dto.logindata.LoginDataRequest;
 import com.github.krzkuc1985.dto.logindata.LoginDataResponse;
 import com.github.krzkuc1985.dto.personaldata.PersonalDataRequest;
 import com.github.krzkuc1985.dto.personaldata.PersonalDataResponse;
-import com.github.krzkuc1985.dto.role.RoleRequest;
 import com.github.krzkuc1985.dto.role.RoleResponse;
 import com.github.krzkuc1985.rest.employee.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,30 +40,16 @@ class EmployeeControllerTest {
 
     private EmployeeRequest employeeRequest;
     private EmployeeResponse employeeResponse;
-    private AddressRequest addressRequest;
-    private AddressResponse addressResponse;
-    private LoginDataRequest loginDataRequest;
-    private LoginDataResponse loginDataResponse;
-    private PersonalDataRequest personalDataRequest;
-    private PersonalDataResponse personalDataResponse;
-    private List<RoleRequest> roleRequests;
-    private List<RoleResponse> roleResponses;
 
     @BeforeEach
     void setUp() {
-        personalDataRequest = new PersonalDataRequest("John", "Doe", "+48123456789", "j.doe@example.com");
-        personalDataResponse = new PersonalDataResponse("John", "Doe", "+48123456789", "j.doe@example.com");
+        PersonalDataRequest personalDataRequest = new PersonalDataRequest("John", "Doe", "+48123456789", "j.doe@example.com");
+        PersonalDataResponse personalDataResponse = new PersonalDataResponse("John", "Doe", "+48123456789", "j.doe@example.com");
+        AddressResponse addressResponse = new AddressResponse("USA", "New York", "Broadway", "17", "2", "09-001");
+        LoginDataResponse loginDataResponse = new LoginDataResponse("john.doe");
+        List<RoleResponse> roleResponses = List.of(new RoleResponse(1L, "ADMIN"));
         employeeRequest = new EmployeeRequest(personalDataRequest);
-        employeeResponse = EmployeeResponse.builder()
-                .id(1L)
-                .personalDataResponse(personalDataResponse)
-                .build();
-        addressRequest = new AddressRequest("USA", "New York", "Broadway", "17", "2", "09-001");
-        addressResponse = new AddressResponse("USA", "New York", "Broadway", "17", "2", "09-001");
-        loginDataRequest = new LoginDataRequest("john.doe", "password123");
-        loginDataResponse = new LoginDataResponse("john.doe");
-        roleRequests = List.of(new RoleRequest("ADMIN"));
-        roleResponses = List.of(new RoleResponse(1L, "ADMIN"));
+        employeeResponse =  new EmployeeResponse(1L, personalDataResponse, addressResponse ,loginDataResponse, roleResponses);
     }
 
     private String asJsonString(final Object obj) throws Exception {
