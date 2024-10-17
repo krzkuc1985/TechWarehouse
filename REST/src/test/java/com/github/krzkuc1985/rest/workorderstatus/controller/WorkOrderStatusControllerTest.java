@@ -39,8 +39,8 @@ class WorkOrderStatusControllerTest {
 
     @BeforeEach
     void setUp() {
-        workOrderStatusRequest = new WorkOrderStatusRequest("NEW");
-        workOrderStatusResponse = new WorkOrderStatusResponse(1L, "NEW");
+        workOrderStatusRequest = new WorkOrderStatusRequest("New_Test");
+        workOrderStatusResponse = new WorkOrderStatusResponse(1L, "New_Test");
     }
 
     private String asJsonString(final Object obj) throws Exception {
@@ -67,7 +67,7 @@ class WorkOrderStatusControllerTest {
         mockMvc.perform(get("/work-order-statuses/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("NEW"));
+                .andExpect(jsonPath("$.status").value("New_Test"));
 
         verify(workOrderStatusService, times(1)).findById(eq(1L));
     }
@@ -93,7 +93,7 @@ class WorkOrderStatusControllerTest {
                         .content(asJsonString(workOrderStatusRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("NEW"));
+                .andExpect(jsonPath("$.status").value("New_Test"));
 
         verify(workOrderStatusService, times(1)).create(any(WorkOrderStatusRequest.class));
     }
@@ -120,7 +120,7 @@ class WorkOrderStatusControllerTest {
                         .content(asJsonString(workOrderStatusRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.status").value("NEW"));
+                .andExpect(jsonPath("$.status").value("New_Test"));
 
         verify(workOrderStatusService, times(1)).update(eq(1L), any(WorkOrderStatusRequest.class));
     }

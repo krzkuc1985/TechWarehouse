@@ -40,9 +40,9 @@ class WorkOrderStatusServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        workOrderStatus = new WorkOrderStatus("NEW");
-        workOrderStatusRequest = new WorkOrderStatusRequest("NEW");
-        workOrderStatusResponse = new WorkOrderStatusResponse(1L, "NEW");
+        workOrderStatus = new WorkOrderStatus("New_Test");
+        workOrderStatusRequest = new WorkOrderStatusRequest("New_Test");
+        workOrderStatusResponse = new WorkOrderStatusResponse(1L, "New_Test");
     }
 
     @Test
