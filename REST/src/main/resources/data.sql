@@ -70,3 +70,9 @@ INSERT INTO work_order_status (status)
 VALUES ('New'),
        ('InProgress'),
        ('Completed');
+
+-- INSERT INTO work_order_type
+INSERT INTO work_order_type (type)
+VALUES ('Repair'),
+       ('Modernization'),
+       ('Tests');
