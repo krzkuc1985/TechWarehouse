@@ -28,51 +28,51 @@ class MeasurementUnitRepositoryTest {
     @DisplayName("should save and retrieve MeasurementUnit")
     void saveAndFindById() {
         // when
-        MeasurementUnit savedUnit = measurementUnitRepository.save(measurementUnit);
-        Optional<MeasurementUnit> foundUnit = measurementUnitRepository.findById(savedUnit.getId());
+        MeasurementUnit saved = measurementUnitRepository.save(measurementUnit);
+        Optional<MeasurementUnit> found = measurementUnitRepository.findById(saved.getId());
 
         // then
-        assertTrue(foundUnit.isPresent());
-        assertEquals("T", foundUnit.get().getSymbol());
+        assertTrue(found.isPresent());
+        assertEquals("T", found.get().getSymbol());
     }
 
     @Test
     @DisplayName("should delete MeasurementUnit")
     void deleteMeasurementUnit() {
         // given
-        MeasurementUnit savedUnit = measurementUnitRepository.save(measurementUnit);
+        MeasurementUnit saved = measurementUnitRepository.save(measurementUnit);
 
         // when
-        measurementUnitRepository.deleteById(savedUnit.getId());
-        Optional<MeasurementUnit> foundUnit = measurementUnitRepository.findById(savedUnit.getId());
+        measurementUnitRepository.deleteById(saved.getId());
+        Optional<MeasurementUnit> found = measurementUnitRepository.findById(saved.getId());
 
         // then
-        assertFalse(foundUnit.isPresent());
+        assertFalse(found.isPresent());
     }
 
     @Test
     @DisplayName("should update MeasurementUnit symbol")
     void updateMeasurementUnitSymbol() {
         // given
-        MeasurementUnit savedUnit = measurementUnitRepository.save(measurementUnit);
+        MeasurementUnit saved = measurementUnitRepository.save(measurementUnit);
 
         // when
-        savedUnit.setSymbol("lb");
-        measurementUnitRepository.save(savedUnit);
-        Optional<MeasurementUnit> updatedUnit = measurementUnitRepository.findById(savedUnit.getId());
+        saved.setSymbol("lb");
+        measurementUnitRepository.save(saved);
+        Optional<MeasurementUnit> updated = measurementUnitRepository.findById(saved.getId());
 
         // then
-        assertTrue(updatedUnit.isPresent());
-        assertEquals("lb", updatedUnit.get().getSymbol());
+        assertTrue(updated.isPresent());
+        assertEquals("lb", updated.get().getSymbol());
     }
 
     @Test
     @DisplayName("should return empty when MeasurementUnit not found")
     void findById_NotFound() {
         // when
-        Optional<MeasurementUnit> foundUnit = measurementUnitRepository.findById(999L);
+        Optional<MeasurementUnit> found = measurementUnitRepository.findById(999L);
 
         // then
-        assertTrue(foundUnit.isEmpty());
+        assertTrue(found.isEmpty());
     }
 }

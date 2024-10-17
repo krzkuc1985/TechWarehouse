@@ -28,52 +28,52 @@ class WorkOrderStatusRepositoryTest {
     @DisplayName("should save and retrieve WorkOrderStatus")
     void saveAndFindById() {
         // when
-        WorkOrderStatus savedWorkOrderStatus = workOrderStatusRepository.save(workOrderStatus);
-        Optional<WorkOrderStatus> foundUnit = workOrderStatusRepository.findById(savedWorkOrderStatus.getId());
+        WorkOrderStatus saved = workOrderStatusRepository.save(workOrderStatus);
+        Optional<WorkOrderStatus> found = workOrderStatusRepository.findById(saved.getId());
 
         // then
-        assertTrue(foundUnit.isPresent());
-        assertEquals("New_Test", foundUnit.get().getStatus());
+        assertTrue(found.isPresent());
+        assertEquals("New_Test", found.get().getStatus());
     }
 
     @Test
     @DisplayName("should delete WorkOrderStatus")
     void deleteWorkOrderStatus() {
         // given
-        WorkOrderStatus savedWorkOrderStatus = workOrderStatusRepository.save(workOrderStatus);
+        WorkOrderStatus saved = workOrderStatusRepository.save(workOrderStatus);
 
         // when
-        workOrderStatusRepository.deleteById(savedWorkOrderStatus.getId());
-        Optional<WorkOrderStatus> foundUnit = workOrderStatusRepository.findById(savedWorkOrderStatus.getId());
+        workOrderStatusRepository.deleteById(saved.getId());
+        Optional<WorkOrderStatus> found = workOrderStatusRepository.findById(saved.getId());
 
         // then
-        assertFalse(foundUnit.isPresent());
+        assertFalse(found.isPresent());
     }
 
     @Test
     @DisplayName("should update WorkOrderStatus symbol")
     void updateWorkOrderStatusSymbol() {
         // given
-        WorkOrderStatus savedWorkOrderStatus = workOrderStatusRepository.save(workOrderStatus);
+        WorkOrderStatus saved = workOrderStatusRepository.save(workOrderStatus);
 
         // when
-        savedWorkOrderStatus.setStatus("Completed_Test");
-        workOrderStatusRepository.save(savedWorkOrderStatus);
-        Optional<WorkOrderStatus> updatedUnit = workOrderStatusRepository.findById(savedWorkOrderStatus.getId());
+        saved.setStatus("Completed_Test");
+        workOrderStatusRepository.save(saved);
+        Optional<WorkOrderStatus> updated = workOrderStatusRepository.findById(saved.getId());
 
         // then
-        assertTrue(updatedUnit.isPresent());
-        assertEquals("Completed_Test", updatedUnit.get().getStatus());
+        assertTrue(updated.isPresent());
+        assertEquals("Completed_Test", updated.get().getStatus());
     }
 
     @Test
     @DisplayName("should return empty when WorkOrderStatus not found")
     void findById_NotFound() {
         // when
-        Optional<WorkOrderStatus> foundUnit = workOrderStatusRepository.findById(999L);
+        Optional<WorkOrderStatus> found = workOrderStatusRepository.findById(999L);
 
         // then
-        assertTrue(foundUnit.isEmpty());
+        assertTrue(found.isEmpty());
     }
 
 }

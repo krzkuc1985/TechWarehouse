@@ -28,52 +28,52 @@ class ItemCategoryRepositoryTest {
     @DisplayName("should save and retrieve ItemCategory")
     void saveAndFindById() {
         // when
-        ItemCategory savedItemCategory = itemCategoryRepository.save(itemCategory);
-        Optional<ItemCategory> foundUnit = itemCategoryRepository.findById(savedItemCategory.getId());
+        ItemCategory saved = itemCategoryRepository.save(itemCategory);
+        Optional<ItemCategory> found = itemCategoryRepository.findById(saved.getId());
 
         // then
-        assertTrue(foundUnit.isPresent());
-        assertEquals("Automation_Test", foundUnit.get().getName());
+        assertTrue(found.isPresent());
+        assertEquals("Automation_Test", found.get().getName());
     }
 
     @Test
     @DisplayName("should delete ItemCategory")
     void deleteItemCategory() {
         // given
-        ItemCategory savedItemCategory = itemCategoryRepository.save(itemCategory);
+        ItemCategory saved = itemCategoryRepository.save(itemCategory);
 
         // when
-        itemCategoryRepository.deleteById(savedItemCategory.getId());
-        Optional<ItemCategory> foundUnit = itemCategoryRepository.findById(savedItemCategory.getId());
+        itemCategoryRepository.deleteById(saved.getId());
+        Optional<ItemCategory> found = itemCategoryRepository.findById(saved.getId());
 
         // then
-        assertFalse(foundUnit.isPresent());
+        assertFalse(found.isPresent());
     }
 
     @Test
     @DisplayName("should update ItemCategory symbol")
     void updateItemCategorySymbol() {
         // given
-        ItemCategory savedItemCategory = itemCategoryRepository.save(itemCategory);
+        ItemCategory saved = itemCategoryRepository.save(itemCategory);
 
         // when
-        savedItemCategory.setName("Electrics_Test");
-        itemCategoryRepository.save(savedItemCategory);
-        Optional<ItemCategory> updatedUnit = itemCategoryRepository.findById(savedItemCategory.getId());
+        saved.setName("Electrics_Test");
+        itemCategoryRepository.save(saved);
+        Optional<ItemCategory> updated = itemCategoryRepository.findById(saved.getId());
 
         // then
-        assertTrue(updatedUnit.isPresent());
-        assertEquals("Electrics_Test", updatedUnit.get().getName());
+        assertTrue(updated.isPresent());
+        assertEquals("Electrics_Test", updated.get().getName());
     }
 
     @Test
     @DisplayName("should return empty when ItemCategory not found")
     void findById_NotFound() {
         // when
-        Optional<ItemCategory> foundUnit = itemCategoryRepository.findById(999L);
+        Optional<ItemCategory> found = itemCategoryRepository.findById(999L);
 
         // then
-        assertTrue(foundUnit.isEmpty());
+        assertTrue(found.isEmpty());
     }
 
 }

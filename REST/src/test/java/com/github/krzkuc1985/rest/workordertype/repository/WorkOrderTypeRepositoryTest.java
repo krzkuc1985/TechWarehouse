@@ -28,52 +28,52 @@ class WorkOrderTypeRepositoryTest {
     @DisplayName("should save and retrieve WorkOrderType")
     void saveAndFindById() {
         // when
-        WorkOrderType savedWorkOrderType = workOrderTypeRepository.save(workOrderType);
-        Optional<WorkOrderType> foundUnit = workOrderTypeRepository.findById(savedWorkOrderType.getId());
+        WorkOrderType saved = workOrderTypeRepository.save(workOrderType);
+        Optional<WorkOrderType> found = workOrderTypeRepository.findById(saved.getId());
 
         // then
-        assertTrue(foundUnit.isPresent());
-        assertEquals("Repair_Test", foundUnit.get().getType());
+        assertTrue(found.isPresent());
+        assertEquals("Repair_Test", found.get().getType());
     }
 
     @Test
     @DisplayName("should delete WorkOrderType")
     void deleteWorkOrderType() {
         // given
-        WorkOrderType savedWorkOrderType = workOrderTypeRepository.save(workOrderType);
+        WorkOrderType saved = workOrderTypeRepository.save(workOrderType);
 
         // when
-        workOrderTypeRepository.deleteById(savedWorkOrderType.getId());
-        Optional<WorkOrderType> foundUnit = workOrderTypeRepository.findById(savedWorkOrderType.getId());
+        workOrderTypeRepository.deleteById(saved.getId());
+        Optional<WorkOrderType> found = workOrderTypeRepository.findById(saved.getId());
 
         // then
-        assertFalse(foundUnit.isPresent());
+        assertFalse(found.isPresent());
     }
 
     @Test
     @DisplayName("should update WorkOrderType type")
     void updateWorkOrderTypeSymbol() {
         // given
-        WorkOrderType savedWorkOrderType = workOrderTypeRepository.save(workOrderType);
+        WorkOrderType saved = workOrderTypeRepository.save(workOrderType);
 
         // when
-        savedWorkOrderType.setType("Modernization_Test");
-        workOrderTypeRepository.save(savedWorkOrderType);
-        Optional<WorkOrderType> updatedUnit = workOrderTypeRepository.findById(savedWorkOrderType.getId());
+        saved.setType("Modernization_Test");
+        workOrderTypeRepository.save(saved);
+        Optional<WorkOrderType> updated = workOrderTypeRepository.findById(saved.getId());
 
         // then
-        assertTrue(updatedUnit.isPresent());
-        assertEquals("Modernization_Test", updatedUnit.get().getType());
+        assertTrue(updated.isPresent());
+        assertEquals("Modernization_Test", updated.get().getType());
     }
 
     @Test
     @DisplayName("should return empty when WorkOrderType not found")
     void findById_NotFound() {
         // when
-        Optional<WorkOrderType> foundUnit = workOrderTypeRepository.findById(999L);
+        Optional<WorkOrderType> found = workOrderTypeRepository.findById(999L);
 
         // then
-        assertTrue(foundUnit.isEmpty());
+        assertTrue(found.isEmpty());
     }
 
 }
