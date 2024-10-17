@@ -64,3 +64,9 @@ VALUES ('Mechanics'),
        ('Hydraulics'),
        ('Electrics'),
        ('Automation');
+
+-- INSERT INTO work_order_status
+INSERT INTO work_order_status (status)
+VALUES ('New'),
+       ('InProgress'),
+       ('Completed');
