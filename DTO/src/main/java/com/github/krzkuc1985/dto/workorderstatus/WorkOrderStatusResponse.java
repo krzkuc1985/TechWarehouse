@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class WorkOrderStatusResponse extends AbstractResponse {
 
     @JsonProperty("status")
-    @Schema(description = "Status of the work order", example = "NEW")
+    @Schema(description = "Status of the work order", example = "New")
     private String status;
 
     @Builder

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class WorkOrderStatusRequest {
 
     @NotBlank(message = "Status is mandatory")
-    @Schema(description = "Status of the work order", example = "NEW")
+    @Schema(description = "Status of the work order", example = "New")
     private String status;
 }
