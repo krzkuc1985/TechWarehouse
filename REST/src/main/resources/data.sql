@@ -56,3 +56,11 @@ VALUES (1, 'Jan', 'Kowalski', '+48111222333','jan.kowalski@example.com', 'Poland
 INSERT INTO employee_roles (employee_id, role_id)
 VALUES (1, 1),
        (2, 2);
+
+-- INSERT INTO item_category
+INSERT INTO item_category (name)
+VALUES ('Mechanics'),
+       ('Pneumatics'),
+       ('Hydraulics'),
+       ('Electrics'),
+       ('Automation');
