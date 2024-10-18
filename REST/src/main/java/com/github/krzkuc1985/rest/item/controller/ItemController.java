@@ -58,6 +58,11 @@ public class ItemController {
 
     @PostMapping
     @Operation(summary = "Create a new item", description = "Creates and returns a new item")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Item created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Item already exists or optimistic lock conflict", content = @Content),
+    })
     public ResponseEntity<ItemResponse> create(
             @RequestBody(description = "Request body containing the details of the new item", required = true)
             @Valid @org.springframework.web.bind.annotation.RequestBody ItemRequest itemRequest) {
