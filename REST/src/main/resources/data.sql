@@ -58,40 +58,40 @@ VALUES (1, 1),
        (2, 2);
 
 -- INSERT INTO item_category
-INSERT INTO item_category (name)
-VALUES ('Mechanics'),
-       ('Pneumatics'),
-       ('Hydraulics'),
-       ('Electrics'),
-       ('Automation');
+INSERT INTO item_category (version, name)
+VALUES (1, 'Mechanics'),
+       (1, 'Pneumatics'),
+       (1, 'Hydraulics'),
+       (1, 'Electrics'),
+       (1, 'Automation');
 
 -- INSERT INTO work_order_status
-INSERT INTO work_order_status (status)
-VALUES ('New'),
-       ('InProgress'),
-       ('Completed');
+INSERT INTO work_order_status (version, status)
+VALUES (1, 'New'),
+       (1, 'InProgress'),
+       (1, 'Completed');
 
 -- INSERT INTO work_order_type
-INSERT INTO work_order_type (type)
-VALUES ('Repair'),
-       ('Modernization'),
-       ('Tests');
+INSERT INTO work_order_type (version, type)
+VALUES (1, 'Repair'),
+       (1, 'Modernization'),
+       (1, 'Tests');
 
 -- INSERT INTO location
-INSERT INTO location (rack, shelf)
-VALUES ('A', '1'),
-       ('A', '2'),
-       ('A', '3'),
-       ('A', '4'),
-       ('B', '1'),
-       ('B', '2'),
-       ('B', '3'),
-       ('B', '4'),
-       ('C', '1'),
-       ('C', '2'),
-       ('C', '3'),
-       ('C', '4'),
-       ('D', '1'),
-       ('D', '2'),
-       ('D', '3'),
-       ('D', '4');
+INSERT INTO location (version, rack, shelf)
+VALUES (1, 'A', '1'),
+       (1, 'A', '2'),
+       (1, 'A', '3'),
+       (1, 'A', '4'),
+       (1, 'B', '1'),
+       (1, 'B', '2'),
+       (1, 'B', '3'),
+       (1, 'B', '4'),
+       (1, 'C', '1'),
+       (1, 'C', '2'),
+       (1, 'C', '3'),
+       (1, 'C', '4'),
+       (1, 'D', '1'),
+       (1, 'D', '2'),
+       (1, 'D', '3'),
+       (1, 'D', '4');
