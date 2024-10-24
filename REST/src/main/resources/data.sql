@@ -9,7 +9,7 @@ VALUES (1, 'mm'),
        (1, 'kg'),
        (1, 'ml'),
        (1, 'l'),
-       (1, 'szt');
+       (1, 'pcs');
 
 -- INSERT INTO permission
 INSERT INTO permission (version, name, category)
@@ -106,4 +106,11 @@ VALUES (1, 'Ball bearing 6204', '6204-ZZ-C3-SKF', 'Closed ball bearing, 20 mm di
        (1, 'Control cable 3x2.5 mm²', 'YY-JZ-3G2.5-50M', 'Cable for powering electrical devices, 50m', 10, 3, 4, true, 20, 5),
        (1, 'Ball valve DN50', 'VB50-16-BSP-DN50', 'Steel ball valve for water installation, 50 mm diameter', 20, 10, 2, false, 50, 10),
        (1, 'Screw M12x60', 'DIN933-M12x60-8.8', 'Metric screw M12, 60 mm length, strength class 8.8', 100, 10, 1, false, 200, 50),
-       (1, 'PLC controller Siemens S7-1200', '6ES7212-1AE40-0XB0', 'PLC controller with 6 inputs/outputs', 2, 10, 5, false, 5, 1);
+       (1, 'PLC controller Siemens S7-300', '6ES7312-1AE14-0AB0', 'PLC controller with 32 KB memory', 2, 10, 5, false, 5, 1),
+       (1, 'PLC controller Siemens S7-1200', '6ES7212-1AE40-0XB0', 'PLC controller with 100KB memory, 8DI and 6DO', 2, 10, 5, false, 5, 1);
+
+-- INSERT INTO work_order
+INSERT INTO work_order (version, description, start_date, end_date, type_id, status_id, employee_id)
+VALUES (1, 'Replacement of faulty sensor', '2021-01-01', '2021-01-10', 1, 3, 1),
+       (1, 'Production line modernization', '2021-02-01', '2021-03-01', 2, 2, 2),
+       (1, 'PLC software testing', '2021-03-01', '2021-03-10', 3, 1, 3);
