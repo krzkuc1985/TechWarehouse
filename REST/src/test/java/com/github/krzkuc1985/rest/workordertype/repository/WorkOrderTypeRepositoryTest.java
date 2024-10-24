@@ -52,7 +52,7 @@ class WorkOrderTypeRepositoryTest {
 
     @Test
     @DisplayName("should update WorkOrderType type")
-    void updateWorkOrderTypeSymbol() {
+    void updateWorkOrderType() {
         // given
         WorkOrderType saved = workOrderTypeRepository.save(workOrderType);
 

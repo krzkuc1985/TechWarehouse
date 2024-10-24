@@ -51,8 +51,8 @@ class ItemCategoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("should update ItemCategory symbol")
-    void updateItemCategorySymbol() {
+    @DisplayName("should update ItemCategory")
+    void updateItemCategory() {
         // given
         ItemCategory saved = itemCategoryRepository.save(itemCategory);
 

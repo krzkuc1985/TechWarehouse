@@ -51,8 +51,8 @@ class MeasurementUnitRepositoryTest {
     }
 
     @Test
-    @DisplayName("should update MeasurementUnit symbol")
-    void updateMeasurementUnitSymbol() {
+    @DisplayName("should update MeasurementUnit")
+    void updateMeasurementUnit() {
         // given
         MeasurementUnit saved = measurementUnitRepository.save(measurementUnit);
 

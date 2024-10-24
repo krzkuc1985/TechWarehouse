@@ -52,8 +52,8 @@ class LocationRepositoryTest {
     }
 
     @Test
-    @DisplayName("should update Location symbol")
-    void updateLocationSymbol() {
+    @DisplayName("should update Location")
+    void updateLocation() {
         // given
         Location saved = locationRepository.save(location);
 

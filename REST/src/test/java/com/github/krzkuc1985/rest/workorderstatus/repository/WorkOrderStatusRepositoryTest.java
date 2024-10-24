@@ -51,8 +51,8 @@ class WorkOrderStatusRepositoryTest {
     }
 
     @Test
-    @DisplayName("should update WorkOrderStatus symbol")
-    void updateWorkOrderStatusSymbol() {
+    @DisplayName("should update WorkOrderStatus")
+    void updateWorkOrderStatus() {
         // given
         WorkOrderStatus saved = workOrderStatusRepository.save(workOrderStatus);
 
