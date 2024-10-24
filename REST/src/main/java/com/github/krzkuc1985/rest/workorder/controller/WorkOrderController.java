@@ -22,7 +22,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/work-order", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/work-orders", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Work Order", description = "API for managing work orders")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
