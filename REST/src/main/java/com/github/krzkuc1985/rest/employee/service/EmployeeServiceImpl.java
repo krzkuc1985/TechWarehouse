@@ -61,10 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public EmployeeResponse update(Long id, EmployeeRequest employeeRequest) {
         Employee employee = findByIdOrThrowException(id);
-        employee.getPersonalData().setFirstName(employeeRequest.getPersonalDataRequest().getFirstName());
-        employee.getPersonalData().setLastName(employeeRequest.getPersonalDataRequest().getLastName());
-        employee.getPersonalData().setPhoneNumber(employeeRequest.getPersonalDataRequest().getPhoneNumber());
-        employee.getPersonalData().setEmail(employeeRequest.getPersonalDataRequest().getEmail());
+        employeeMapper.mapToEntity(employee, employeeRequest);
         return employeeMapper.mapToResponse(employeeRepository.save(employee));
     }
 
