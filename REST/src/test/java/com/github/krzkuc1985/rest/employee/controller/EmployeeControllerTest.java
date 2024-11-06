@@ -61,7 +61,7 @@ class EmployeeControllerTest {
     void getAll_ReturnsListOfEmployees() throws Exception {
         when(employeeService.findAll()).thenReturn(List.of(employeeResponse));
 
-        mockMvc.perform(get("/employee").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/employees").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
 
@@ -73,7 +73,7 @@ class EmployeeControllerTest {
     void getById_ReturnsEmployee() throws Exception {
         when(employeeService.findById(eq(1L))).thenReturn(employeeResponse);
 
-        mockMvc.perform(get("/employee/1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/employees/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.PersonalData.firstName").value("John"));
@@ -86,7 +86,7 @@ class EmployeeControllerTest {
     void getById_EmployeeNotFound() throws Exception {
         when(employeeService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
 
-        mockMvc.perform(get("/employee/1"))
+        mockMvc.perform(get("/employees/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("ERROR.GENERAL.NOT_FOUND"));
 
@@ -98,7 +98,7 @@ class EmployeeControllerTest {
     void create_ValidEmployeeRequest() throws Exception {
         when(employeeService.create(any(EmployeeRequest.class))).thenReturn(employeeResponse);
 
-        mockMvc.perform(post("/employee").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(employeeRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
@@ -112,7 +112,7 @@ class EmployeeControllerTest {
     void create_EmployeeAlreadyExists() throws Exception {
         when(employeeService.create(any(EmployeeRequest.class))).thenThrow(DataIntegrityViolationException.class);
 
-        mockMvc.perform(post("/employee").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(employeeRequest)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("ERROR.GENERAL.CONFLICT"));
@@ -125,7 +125,7 @@ class EmployeeControllerTest {
     void update_ValidEmployeeRequest() throws Exception {
         when(employeeService.update(eq(1L), any(EmployeeRequest.class))).thenReturn(employeeResponse);
 
-        mockMvc.perform(put("/employee/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(employeeRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -139,7 +139,7 @@ class EmployeeControllerTest {
     void update_EmployeeNotFound() throws Exception {
         when(employeeService.update(eq(1L), any(EmployeeRequest.class))).thenThrow(EntityNotFoundException.class);
 
-        mockMvc.perform(put("/employee/1").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(employeeRequest)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("ERROR.GENERAL.NOT_FOUND"));
@@ -152,7 +152,7 @@ class EmployeeControllerTest {
     void delete_EmployeeExists() throws Exception {
         doNothing().when(employeeService).delete(eq(1L));
 
-        mockMvc.perform(delete("/employee/1"))
+        mockMvc.perform(delete("/employees/1"))
                 .andExpect(status().isNoContent());
 
         verify(employeeService, times(1)).delete(eq(1L));
@@ -163,7 +163,7 @@ class EmployeeControllerTest {
     void delete_EmployeeNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(employeeService).delete(eq(1L));
 
-        mockMvc.perform(delete("/employee/1"))
+        mockMvc.perform(delete("/employees/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("ERROR.GENERAL.NOT_FOUND"));
 

@@ -38,7 +38,7 @@ class PermissionControllerTest {
     void getAll_ReturnsListOfPermissions() throws Exception {
         when(permissionService.findAll()).thenReturn(List.of(permissionResponse));
 
-        mockMvc.perform(get("/permission").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/permissions").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(1))

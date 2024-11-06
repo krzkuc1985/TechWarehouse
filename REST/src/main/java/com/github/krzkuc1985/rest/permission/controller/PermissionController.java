@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/permission", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/permissions", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Permission", description = "API for managing permissions")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
