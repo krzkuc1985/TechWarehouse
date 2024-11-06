@@ -4,6 +4,7 @@ import com.github.krzkuc1985.dto.workorder.WorkOrderRequest;
 import com.github.krzkuc1985.dto.workorder.WorkOrderResponse;
 import com.github.krzkuc1985.rest.address.Address;
 import com.github.krzkuc1985.rest.employee.model.Employee;
+import com.github.krzkuc1985.rest.inventory.model.Inventory;
 import com.github.krzkuc1985.rest.logindata.LoginData;
 import com.github.krzkuc1985.rest.personaldata.PersonalData;
 import com.github.krzkuc1985.rest.role.model.Role;
@@ -60,7 +61,8 @@ class WorkOrderServiceImplTest {
         LoginData loginData = new LoginData("admin", "password123");
         Role role = new Role("EMPLOYEE", new HashSet<>());
         Employee employee = new Employee(personalData, address, loginData, new ArrayList<>(List.of(role)));
-        workOrder = new WorkOrder("Replacing a faulty sensor", Instant.parse("2022-01-10T11:00:00Z"), Instant.parse("2022-01-12T14:00:00Z"), status, type, employee);
+        List<Inventory> inventories = List.of();
+        workOrder = new WorkOrder("Replacing a faulty sensor", Instant.parse("2022-01-10T11:00:00Z"), Instant.parse("2022-01-12T14:00:00Z"), status, type, employee, inventories);
         workOrderRequest = new WorkOrderRequest("Replacing a faulty sensor", Instant.parse("2022-01-10T11:00:00Z"), Instant.parse("2022-01-12T14:00:00Z"), 1L, 1L, 1L);
         workOrderResponse = new WorkOrderResponse(1L, "Replacing a faulty sensor", Instant.parse("2022-01-10T11:00:00Z"), Instant.parse("2022-01-12T14:00:00Z"), 1L, 1L, 1L);
     }

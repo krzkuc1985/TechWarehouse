@@ -2,6 +2,7 @@ package com.github.krzkuc1985.rest.item.controller;
 
 import com.github.krzkuc1985.dto.item.ItemRequest;
 import com.github.krzkuc1985.dto.item.ItemResponse;
+import com.github.krzkuc1985.dto.inventory.InventoryResponse;
 import com.github.krzkuc1985.rest.item.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -104,5 +105,19 @@ public class ItemController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/work-orders")
+    @Operation(summary = "Get work orders", description = "Returns a list of work orders for a specific item")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of work orders returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
+    })
+    public ResponseEntity<List<InventoryResponse>> getWorkOrders(
+            @Parameter(description = "ID of the item to retrieve work orders", required = true)
+            @PathVariable Long id) {
+        List<InventoryResponse> responses = service.getInventories(id);
+        return ResponseEntity.ok().body(responses);
+    }
+
 
 }

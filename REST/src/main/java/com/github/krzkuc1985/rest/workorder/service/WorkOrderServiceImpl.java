@@ -2,9 +2,14 @@ package com.github.krzkuc1985.rest.workorder.service;
 
 import com.github.krzkuc1985.dto.workorder.WorkOrderRequest;
 import com.github.krzkuc1985.dto.workorder.WorkOrderResponse;
+import com.github.krzkuc1985.dto.inventory.InventoryResponse;
+import com.github.krzkuc1985.rest.item.model.Item;
+import com.github.krzkuc1985.rest.item.service.ItemService;
 import com.github.krzkuc1985.rest.workorder.mapper.WorkOrderMapper;
 import com.github.krzkuc1985.rest.workorder.model.WorkOrder;
 import com.github.krzkuc1985.rest.workorder.repository.WorkOrderRepository;
+import com.github.krzkuc1985.rest.inventory.mapper.InventoryMapper;
+import com.github.krzkuc1985.rest.inventory.service.InventoryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,9 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 
     private final WorkOrderRepository repository;
     private final WorkOrderMapper mapper;
+    private final ItemService itemService;
+    private final InventoryService inventoryService;
+    private final InventoryMapper inventoryMapper;
 
     @Override
     public WorkOrder findByIdOrThrowException(Long id) {
@@ -53,5 +61,19 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public void delete(Long id) {
         WorkOrder workOrder = findByIdOrThrowException(id);
         repository.delete(workOrder);
+    }
+
+    @Override
+    public List<InventoryResponse> getInventories(Long id) {
+        return inventoryMapper.mapToResponse(inventoryService.findByWorkOrderId(id));
+    }
+
+    @Override
+    @Transactional
+    public InventoryResponse addInventory(Long id, Long itemId, Integer quantity) {
+        WorkOrder workOrder = findByIdOrThrowException(id);
+        Item item = itemService.findByIdOrThrowException(itemId);
+        itemService.changeQuantity(item, quantity);
+        return inventoryMapper.mapToResponse(inventoryService.create(workOrder, item, quantity));
     }
 }

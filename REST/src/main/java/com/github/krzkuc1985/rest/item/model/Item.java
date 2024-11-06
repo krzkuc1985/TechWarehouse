@@ -4,9 +4,11 @@ import com.github.krzkuc1985.rest.AbstractEntity;
 import com.github.krzkuc1985.rest.itemcategory.model.ItemCategory;
 import com.github.krzkuc1985.rest.location.model.Location;
 import com.github.krzkuc1985.rest.measurementunit.model.MeasurementUnit;
+import com.github.krzkuc1985.rest.inventory.model.Inventory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -52,6 +56,9 @@ public class Item extends AbstractEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private ItemCategory itemCategory;
+
+    @OneToMany(mappedBy = "item")
+    private List<Inventory> inventories;
 
     private Boolean archive;
 

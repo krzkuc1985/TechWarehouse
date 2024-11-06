@@ -1,5 +1,6 @@
 package com.github.krzkuc1985.rest.item.repository;
 
+import com.github.krzkuc1985.rest.inventory.model.Inventory;
 import com.github.krzkuc1985.rest.item.model.Item;
 import com.github.krzkuc1985.rest.itemcategory.model.ItemCategory;
 import com.github.krzkuc1985.rest.itemcategory.repository.ItemCategoryRepository;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +41,8 @@ class ItemRepositoryTest {
         MeasurementUnit measurementUnit = measurementUnitRepository.findById(10L).orElseThrow(() -> new RuntimeException("MeasurementUnit not found"));
         Location location = locationRepository.findById(1L).orElseThrow(() -> new RuntimeException("Location not found"));
         ItemCategory itemCategory = itemCategoryRepository.findById(1L).orElseThrow(() -> new RuntimeException("ItemCategory not found"));
-        item = new Item("PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, measurementUnit, 10, 3, location, itemCategory, false);
+        List<Inventory> inventories = List.of();
+        item = new Item("PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, measurementUnit, 10, 3, location, itemCategory, inventories, false);
     }
 
     @Test

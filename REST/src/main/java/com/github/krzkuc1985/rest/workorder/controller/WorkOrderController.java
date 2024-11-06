@@ -2,6 +2,7 @@ package com.github.krzkuc1985.rest.workorder.controller;
 
 import com.github.krzkuc1985.dto.workorder.WorkOrderRequest;
 import com.github.krzkuc1985.dto.workorder.WorkOrderResponse;
+import com.github.krzkuc1985.dto.inventory.InventoryResponse;
 import com.github.krzkuc1985.rest.workorder.service.WorkOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -103,5 +104,42 @@ public class WorkOrderController {
             @PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/items")
+    @Operation(summary = "Get items", description = "Returns a list of items for a specific work order")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of items returned successfully"),
+            @ApiResponse(responseCode = "404", description = "Work order not found", content = @Content),
+    })
+    public ResponseEntity<List<InventoryResponse>> getInventories(
+            @Parameter(description = "ID of the work order to retrieve items", required = true)
+            @PathVariable Long id) {
+        List<InventoryResponse> responses = service.getInventories(id);
+        return ResponseEntity.ok().body(responses);
+    }
+
+    @PostMapping("/{id}/items")
+    @Operation(summary = "Add item", description = "Adds a new item to a specific work order")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Work order item added successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Work order not found", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Work order item already exists or optimistic lock conflict", content = @Content),
+    })
+    public ResponseEntity<InventoryResponse> addInventory(
+            @Parameter(description = "ID of the work order to add item", required = true)
+            @PathVariable Long id,
+            @Parameter(description = "ID of the item to add", required = true)
+            @RequestParam Long itemId,
+            @Parameter(description = "Quantity of the item to add", required = true)
+            @RequestParam Integer quantity) {
+        InventoryResponse response = service.addInventory(id, itemId, quantity);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 }

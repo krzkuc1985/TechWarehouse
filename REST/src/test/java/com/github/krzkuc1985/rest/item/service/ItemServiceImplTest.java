@@ -2,6 +2,7 @@ package com.github.krzkuc1985.rest.item.service;
 
 import com.github.krzkuc1985.dto.item.ItemRequest;
 import com.github.krzkuc1985.dto.item.ItemResponse;
+import com.github.krzkuc1985.rest.inventory.model.Inventory;
 import com.github.krzkuc1985.rest.item.mapper.ItemMapper;
 import com.github.krzkuc1985.rest.item.model.Item;
 import com.github.krzkuc1985.rest.item.repository.ItemRepository;
@@ -45,7 +46,8 @@ class ItemServiceImplTest {
         MeasurementUnit measurementUnit = new MeasurementUnit("pcs");
         Location location = new Location("A", "1");
         ItemCategory itemCategory = new ItemCategory("PLC Controllers");
-        item = new Item("PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, measurementUnit, 1, 3, location, itemCategory, false);
+        List<Inventory> inventories = List.of();
+        item = new Item("PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, measurementUnit, 1, 3, location, itemCategory, inventories, false);
         itemRequest = new ItemRequest("PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, 1L, 1, 3, 1L, false);
         itemResponse = new ItemResponse(1L, "PLC Controller S7-1200", "6ES7214-1AG40-0XB0", "PLC Controller S7-1200 with 14 digital inputs and 10 digital outputs. Power supply 24V DC", 2, 1L, 1, 3, 1L, false);
     }

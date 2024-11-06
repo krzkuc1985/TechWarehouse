@@ -2,6 +2,7 @@ package com.github.krzkuc1985.rest.item.service;
 
 import com.github.krzkuc1985.dto.item.ItemRequest;
 import com.github.krzkuc1985.dto.item.ItemResponse;
+import com.github.krzkuc1985.dto.inventory.InventoryResponse;
 import com.github.krzkuc1985.rest.item.model.Item;
 
 import java.util.List;
@@ -19,5 +20,9 @@ public interface ItemService {
     ItemResponse update(Long id, ItemRequest itemRequest);
 
     void delete(Long id);
+
+    void changeQuantity(Item item, Integer quantity);
+
+    List<InventoryResponse> getInventories(Long id);
 
 }
