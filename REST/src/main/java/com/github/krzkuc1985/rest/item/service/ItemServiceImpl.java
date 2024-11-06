@@ -21,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
-    private final InventoryService inventoryService; //TODO fix this
+    private final InventoryService inventoryService;
     private final InventoryMapper inventoryMapper;
 
     @Override
