@@ -3,6 +3,8 @@ package com.github.krzkuc1985.rest.measurementunit.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitRequest;
 import com.github.krzkuc1985.dto.measurementunit.MeasurementUnitResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.measurementunit.service.MeasurementUnitService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -22,11 +26,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(MeasurementUnitController.class)
 class MeasurementUnitControllerTest {
 
     @MockBean
     private MeasurementUnitService measurementUnitService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,6 +56,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_MEASUREMENT_UNIT")
     @DisplayName("getAll should return 200 when measurement units are found")
     void getAll_ReturnsListOfMeasurementUnits() throws Exception {
         when(measurementUnitService.findAll()).thenReturn(List.of(measurementUnitResponse));
@@ -60,6 +69,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_MEASUREMENT_UNIT")
     @DisplayName("getById should return 200 when measurement unit is found")
     void getById_ReturnsMeasurementUnit() throws Exception {
         when(measurementUnitService.findById(eq(1L))).thenReturn(measurementUnitResponse);
@@ -73,6 +83,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_MEASUREMENT_UNIT")
     @DisplayName("getById should return 404 when measurement unit not found")
     void getById_MeasurementUnitNotFound() throws Exception {
         when(measurementUnitService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -85,6 +96,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_MEASUREMENT_UNIT")
     @DisplayName("create should return 201 when measurement unit is created")
     void create_ValidMeasurementUnitRequest() throws Exception {
         when(measurementUnitService.create(any(MeasurementUnitRequest.class))).thenReturn(measurementUnitResponse);
@@ -99,6 +111,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_MEASUREMENT_UNIT")
     @DisplayName("create should return 409 when measurement unit already exists")
     void create_MeasurementUnitAlreadyExists() throws Exception {
         when(measurementUnitService.create(any(MeasurementUnitRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -112,6 +125,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_MEASUREMENT_UNIT")
     @DisplayName("update should return 200 when measurement unit is updated")
     void update_ValidMeasurementUnitRequest() throws Exception {
         when(measurementUnitService.update(eq(1L), any(MeasurementUnitRequest.class))).thenReturn(measurementUnitResponse);
@@ -126,6 +140,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_MEASUREMENT_UNIT")
     @DisplayName("update should return 404 when measurement unit not found")
     void update_MeasurementUnitNotFound() throws Exception {
         when(measurementUnitService.update(eq(1L), any(MeasurementUnitRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -139,6 +154,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_MEASUREMENT_UNIT")
     @DisplayName("delete should return 204 when measurement unit is deleted")
     void delete_MeasurementUnitExists() throws Exception {
         doNothing().when(measurementUnitService).delete(eq(1L));
@@ -150,6 +166,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_MEASUREMENT_UNIT")
     @DisplayName("delete should return 404 when measurement unit not found")
     void delete_MeasurementUnitNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(measurementUnitService).delete(eq(1L));
@@ -162,6 +179,7 @@ class MeasurementUnitControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_MEASUREMENT_UNIT")
     @DisplayName("update should return 409 when optimistic lock exception occurs")
     void update_ThrowsOptimisticLockException() throws Exception {
         when(measurementUnitService.update(eq(1L), any(MeasurementUnitRequest.class)))

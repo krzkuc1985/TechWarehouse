@@ -8,6 +8,8 @@ import com.github.krzkuc1985.dto.logindata.LoginDataResponse;
 import com.github.krzkuc1985.dto.personaldata.PersonalDataRequest;
 import com.github.krzkuc1985.dto.personaldata.PersonalDataResponse;
 import com.github.krzkuc1985.dto.role.RoleResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.employee.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -26,11 +30,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(EmployeeController.class)
 class EmployeeControllerTest {
 
     @MockBean
     private EmployeeService employeeService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,6 +65,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_EMPLOYEE")
     @DisplayName("getAll should return 200 when employees are found")
     void getAll_ReturnsListOfEmployees() throws Exception {
         when(employeeService.findAll()).thenReturn(List.of(employeeResponse));
@@ -69,6 +78,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_EMPLOYEE")
     @DisplayName("getById should return 200 when employee is found")
     void getById_ReturnsEmployee() throws Exception {
         when(employeeService.findById(eq(1L))).thenReturn(employeeResponse);
@@ -82,6 +92,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_EMPLOYEE")
     @DisplayName("getById should return 404 when employee not found")
     void getById_EmployeeNotFound() throws Exception {
         when(employeeService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -94,6 +105,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_EMPLOYEE")
     @DisplayName("create should return 201 when employee is created")
     void create_ValidEmployeeRequest() throws Exception {
         when(employeeService.create(any(EmployeeRequest.class))).thenReturn(employeeResponse);
@@ -108,6 +120,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_EMPLOYEE")
     @DisplayName("create should return 409 when employee already exists")
     void create_EmployeeAlreadyExists() throws Exception {
         when(employeeService.create(any(EmployeeRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -121,6 +134,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_EMPLOYEE")
     @DisplayName("update should return 200 when employee is updated")
     void update_ValidEmployeeRequest() throws Exception {
         when(employeeService.update(eq(1L), any(EmployeeRequest.class))).thenReturn(employeeResponse);
@@ -135,6 +149,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_EMPLOYEE")
     @DisplayName("update should return 404 when employee not found")
     void update_EmployeeNotFound() throws Exception {
         when(employeeService.update(eq(1L), any(EmployeeRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -148,6 +163,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_EMPLOYEE")
     @DisplayName("delete should return 204 when employee is deleted")
     void delete_EmployeeExists() throws Exception {
         doNothing().when(employeeService).delete(eq(1L));
@@ -159,6 +175,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_EMPLOYEE")
     @DisplayName("delete should return 404 when employee not found")
     void delete_EmployeeNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(employeeService).delete(eq(1L));

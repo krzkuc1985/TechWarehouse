@@ -5,6 +5,8 @@ import com.github.krzkuc1985.dto.permission.PermissionRequest;
 import com.github.krzkuc1985.dto.permission.PermissionResponse;
 import com.github.krzkuc1985.dto.role.RoleRequest;
 import com.github.krzkuc1985.dto.role.RoleResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.role.service.RoleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -25,11 +29,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(RoleController.class)
 class RoleControllerTest {
 
     @MockBean
     private RoleService roleService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -62,6 +70,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ROLE")
     @DisplayName("getAll should return 200 when roles are found")
     void getAll_ReturnsListOfRoles() throws Exception {
         when(roleService.findAll()).thenReturn(List.of(roleResponse));
@@ -74,6 +83,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ROLE")
     @DisplayName("getById should return 200 when role is found")
     void getById_ReturnsRole() throws Exception {
         when(roleService.findById(eq(1L))).thenReturn(roleResponse);
@@ -87,6 +97,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ROLE")
     @DisplayName("getById should return 404 when role not found")
     void getById_RoleNotFound() throws Exception {
         when(roleService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -99,6 +110,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_ROLE")
     @DisplayName("create should return 201 when role is created")
     void create_ValidRoleRequest() throws Exception {
         when(roleService.create(any(RoleRequest.class))).thenReturn(roleResponse);
@@ -113,6 +125,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_ROLE")
     @DisplayName("create should return 409 when role already exists")
     void create_RoleAlreadyExists() throws Exception {
         when(roleService.create(any(RoleRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -126,6 +139,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ROLE")
     @DisplayName("update should return 200 when role is updated")
     void update_ValidRoleRequest() throws Exception {
         when(roleService.update(eq(1L), any(RoleRequest.class))).thenReturn(roleResponse);
@@ -140,6 +154,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ROLE")
     @DisplayName("update should return 404 when role not found")
     void update_RoleNotFound() throws Exception {
         when(roleService.update(eq(1L), any(RoleRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -153,6 +168,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ROLE")
     @DisplayName("delete should return 204 when role is deleted")
     void delete_RoleExists() throws Exception {
         doNothing().when(roleService).delete(eq(1L));
@@ -164,6 +180,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ROLE")
     @DisplayName("delete should return 404 when role not found")
     void delete_RoleNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(roleService).delete(eq(1L));
@@ -176,6 +193,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ROLE_PERMISSION")
     @DisplayName("getPermissions should return 200 when permissions are found for a role")
     void getPermissions_ReturnsPermissions() throws Exception {
         when(roleService.getPermissionFromRole(eq(1L))).thenReturn(permissionResponses);
@@ -189,6 +207,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ROLE_PERMISSION")
     @DisplayName("getPermissions should return 404 when role not found")
     void getPermissions_RoleNotFound() throws Exception {
         when(roleService.getPermissionFromRole(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -201,6 +220,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_ROLE_PERMISSION")
     @DisplayName("addPermissions should return 204 when permissions are added successfully")
     void addPermissions_ValidRequest() throws Exception {
         doNothing().when(roleService).addPermissionToRole(eq(1L), anyList());
@@ -213,6 +233,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ROLE_PERMISSION")
     @DisplayName("removePermissions should return 204 when permissions are removed successfully")
     void removePermissions_ValidRequest() throws Exception {
         doNothing().when(roleService).removePermissionFromRole(eq(1L), anyList());
@@ -225,6 +246,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ROLE_PERMISSION")
     @DisplayName("removePermissions should return 404 when role not found")
     void removePermissions_RoleNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(roleService).removePermissionFromRole(eq(1L), anyList());
@@ -238,6 +260,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ROLE")
     @DisplayName("update should return 409 when optimistic locking failure occurs")
     void update_ThrowsOptimisticLockingFailureException() throws Exception {
         when(roleService.update(eq(1L), any(RoleRequest.class))).thenThrow(ObjectOptimisticLockingFailureException.class);

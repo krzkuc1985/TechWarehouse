@@ -3,6 +3,8 @@ package com.github.krzkuc1985.rest.item.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.krzkuc1985.dto.item.ItemRequest;
 import com.github.krzkuc1985.dto.item.ItemResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.item.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -22,11 +26,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(ItemController.class)
 class ItemControllerTest {
 
     @MockBean
     private ItemService itemService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,6 +56,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ITEM")
     @DisplayName("getAll should return 200 when items are found")
     void getAll_ReturnsListOfItems() throws Exception {
         when(itemService.findAll()).thenReturn(List.of(itemResponse));
@@ -60,6 +69,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ITEM")
     @DisplayName("getById should return 200 when item is found")
     void getById_ReturnsItem() throws Exception {
         when(itemService.findById(eq(1L))).thenReturn(itemResponse);
@@ -81,6 +91,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_ITEM")
     @DisplayName("getById should return 404 when item not found")
     void getById_ItemNotFound() throws Exception {
         when(itemService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -93,6 +104,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_ITEM")
     @DisplayName("create should return 201 when item is created")
     void create_ValidItemRequest() throws Exception {
         when(itemService.create(any(ItemRequest.class))).thenReturn(itemResponse);
@@ -116,6 +128,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_ITEM")
     @DisplayName("create should return 409 when item already exists")
     void create_ItemAlreadyExists() throws Exception {
         when(itemService.create(any(ItemRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -129,6 +142,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ITEM")
     @DisplayName("update should return 200 when item is updated")
     void update_ValidItemRequest() throws Exception {
         when(itemService.update(eq(1L), any(ItemRequest.class))).thenReturn(itemResponse);
@@ -151,6 +165,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ITEM")
     @DisplayName("update should return 404 when item not found")
     void update_ItemNotFound() throws Exception {
         when(itemService.update(eq(1L), any(ItemRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -164,6 +179,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ITEM")
     @DisplayName("delete should return 204 when item is deleted")
     void delete_ItemExists() throws Exception {
         doNothing().when(itemService).delete(eq(1L));
@@ -175,6 +191,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_ITEM")
     @DisplayName("delete should return 404 when item not found")
     void delete_ItemNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(itemService).delete(eq(1L));
@@ -187,6 +204,7 @@ class ItemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_ITEM")
     @DisplayName("update should return 409 when optimistic lock exception occurs")
     void update_ThrowsOptimisticLockException() throws Exception {
         when(itemService.update(eq(1L), any(ItemRequest.class)))

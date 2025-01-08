@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,7 +37,8 @@ public class RoleController {
     private final RoleService service;
 
     @GetMapping
-    @Operation(summary = "Get all roles", description = "Returns a list of all roles")
+    @PreAuthorize("hasAuthority('VIEW_ROLE')")
+    @Operation(summary = "Get all roles", description = "Returns a list of all roles.<br>Requires authority: VIEW_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of roles returned successfully"),
     })
@@ -46,7 +48,8 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get role by ID", description = "Returns a specific role by ID")
+    @PreAuthorize("hasAuthority('VIEW_ROLE')")
+    @Operation(summary = "Get role by ID", description = "Returns a specific role by ID.<br>Requires authority: VIEW_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Role returned successfully"),
             @ApiResponse(responseCode = "404", description = "Role not found", content = @Content),
@@ -59,7 +62,8 @@ public class RoleController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new role", description = "Creates and returns a new role")
+    @PreAuthorize("hasAuthority('ADD_ROLE')")
+    @Operation(summary = "Create a new role", description = "Creates and returns a new role.<br>Requires authority: ADD_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Role created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid role data", content = @Content),
@@ -78,7 +82,8 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a role", description = "Updates an existing role by ID")
+    @PreAuthorize("hasAuthority('EDIT_ROLE')")
+    @Operation(summary = "Update a role", description = "Updates an existing role by ID.<br>Requires authority: EDIT_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Role updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid role data", content = @Content),
@@ -95,7 +100,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a role", description = "Deletes an existing role by ID")
+    @PreAuthorize("hasAuthority('DELETE_ROLE')")
+    @Operation(summary = "Delete a role", description = "Deletes an existing role by ID.<br>Requires authority: DELETE_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Role deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Role not found", content = @Content)
@@ -108,7 +114,8 @@ public class RoleController {
     }
 
     @GetMapping("/{id}/permissions")
-    @Operation(summary = "Get permissions from a role", description = "Returns a list of permissions from an existing role by ID")
+    @PreAuthorize("hasAuthority('VIEW_ROLE_PERMISSION')")
+    @Operation(summary = "Get permissions from a role", description = "Returns a list of permissions from an existing role by ID.<br>Requires authority: VIEW_ROLE_PERMISSION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of permissions returned successfully"),
             @ApiResponse(responseCode = "404", description = "Role not found", content = @Content)
@@ -121,7 +128,8 @@ public class RoleController {
     }
 
     @PostMapping("/{id}/permissions")
-    @Operation(summary = "Add permissions to a role", description = "Adds permissions to an existing role by ID")
+    @PreAuthorize("hasAuthority('ADD_ROLE_PERMISSION')")
+    @Operation(summary = "Add permissions to a role", description = "Adds permissions to an existing role by ID.<br>Requires authority: ADD_ROLE_PERMISSION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Permissions added successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid permission data", content = @Content),
@@ -138,7 +146,8 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}/permissions")
-    @Operation(summary = "Remove permissions from a role", description = "Removes permissions from an existing role by ID")
+    @PreAuthorize("hasAuthority('DELETE_ROLE_PERMISSION')")
+    @Operation(summary = "Remove permissions from a role", description = "Removes permissions from an existing role by ID.<br>Requires authority: DELETE_ROLE_PERMISSION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Permissions removed successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid permission data", content = @Content),

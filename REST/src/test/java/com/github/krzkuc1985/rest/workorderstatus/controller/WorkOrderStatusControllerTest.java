@@ -3,6 +3,8 @@ package com.github.krzkuc1985.rest.workorderstatus.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.krzkuc1985.dto.workorderstatus.WorkOrderStatusRequest;
 import com.github.krzkuc1985.dto.workorderstatus.WorkOrderStatusResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.workorderstatus.service.WorkOrderStatusService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -22,11 +26,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(WorkOrderStatusController.class)
 class WorkOrderStatusControllerTest {
 
     @MockBean
     private WorkOrderStatusService workOrderStatusService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,6 +56,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_WORK_ORDER_STATUS")
     @DisplayName("getAll should return 200 when work order statuses are found")
     void getAll_ReturnsListOfWorkOrderStatuses() throws Exception {
         when(workOrderStatusService.findAll()).thenReturn(List.of(workOrderStatusResponse));
@@ -60,6 +69,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_WORK_ORDER_STATUS")
     @DisplayName("getById should return 200 when work order status is found")
     void getById_ReturnsWorkOrderStatus() throws Exception {
         when(workOrderStatusService.findById(eq(1L))).thenReturn(workOrderStatusResponse);
@@ -73,6 +83,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_WORK_ORDER_STATUS")
     @DisplayName("getById should return 404 when work order status not found")
     void getById_WorkOrderStatusNotFound() throws Exception {
         when(workOrderStatusService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -85,6 +96,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_WORK_ORDER_STATUS")
     @DisplayName("create should return 201 when work order status is created")
     void create_ValidWorkOrderStatusRequest() throws Exception {
         when(workOrderStatusService.create(any(WorkOrderStatusRequest.class))).thenReturn(workOrderStatusResponse);
@@ -99,6 +111,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_WORK_ORDER_STATUS")
     @DisplayName("create should return 409 when work order status already exists")
     void create_WorkOrderStatusAlreadyExists() throws Exception {
         when(workOrderStatusService.create(any(WorkOrderStatusRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -112,6 +125,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_WORK_ORDER_STATUS")
     @DisplayName("update should return 200 when work order status is updated")
     void update_ValidWorkOrderStatusRequest() throws Exception {
         when(workOrderStatusService.update(eq(1L), any(WorkOrderStatusRequest.class))).thenReturn(workOrderStatusResponse);
@@ -126,6 +140,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_WORK_ORDER_STATUS")
     @DisplayName("update should return 404 when work order status not found")
     void update_WorkOrderStatusNotFound() throws Exception {
         when(workOrderStatusService.update(eq(1L), any(WorkOrderStatusRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -139,6 +154,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_WORK_ORDER_STATUS")
     @DisplayName("delete should return 204 when work order status is deleted")
     void delete_WorkOrderStatusExists() throws Exception {
         doNothing().when(workOrderStatusService).delete(eq(1L));
@@ -150,6 +166,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_WORK_ORDER_STATUS")
     @DisplayName("delete should return 404 when work order status not found")
     void delete_WorkOrderStatusNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(workOrderStatusService).delete(eq(1L));
@@ -162,6 +179,7 @@ class WorkOrderStatusControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_WORK_ORDER_STATUS")
     @DisplayName("update should return 409 when optimistic lock exception occurs")
     void update_ThrowsOptimisticLockException() throws Exception {
         when(workOrderStatusService.update(eq(1L), any(WorkOrderStatusRequest.class)))

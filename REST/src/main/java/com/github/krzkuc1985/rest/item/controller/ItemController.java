@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,7 +36,8 @@ public class ItemController {
     private final ItemService service;
 
     @GetMapping
-    @Operation(summary = "Get all items", description = "Returns a list of all items")
+    @PreAuthorize("hasAuthority('VIEW_ITEM')")
+    @Operation(summary = "Get all items", description = "Returns a list of all items.<br>Requires authority: VIEW_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of items returned successfully"),
     })
@@ -45,7 +47,8 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get item by ID", description = "Returns a specific item by ID")
+    @PreAuthorize("hasAuthority('VIEW_ITEM')")
+    @Operation(summary = "Get item by ID", description = "Returns a specific item by ID.<br>Requires authority: VIEW_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item returned successfully"),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
@@ -58,7 +61,8 @@ public class ItemController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new item", description = "Creates and returns a new item")
+    @PreAuthorize("hasAuthority('ADD_ITEM')")
+    @Operation(summary = "Create a new item", description = "Creates and returns a new item.<br>Requires authority: ADD_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -77,7 +81,8 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update item", description = "Updates a existing item by ID")
+    @PreAuthorize("hasAuthority('EDIT_ITEM')")
+    @Operation(summary = "Update item", description = "Updates a existing item by ID.<br>Requires authority: EDIT_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -94,7 +99,8 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete item", description = "Deletes a item by ID")
+    @PreAuthorize("hasAuthority('DELETE_ITEM')")
+    @Operation(summary = "Delete item", description = "Deletes a item by ID.<br>Requires authority: DELETE_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),
@@ -107,7 +113,8 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/work-orders")
-    @Operation(summary = "Get work orders", description = "Returns a list of work orders for a specific item")
+    @PreAuthorize("hasAuthority('VIEW_ITEM_WORK_ORDER')")
+    @Operation(summary = "Get work orders", description = "Returns a list of work orders for a specific item.<br>Requires authority: VIEW_ITEM_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of work orders returned successfully"),
             @ApiResponse(responseCode = "404", description = "Item not found", content = @Content),

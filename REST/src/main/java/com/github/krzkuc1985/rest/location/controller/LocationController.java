@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class LocationController {
     private final LocationService service;
 
     @GetMapping
-    @Operation(summary = "Get all locations", description = "Returns a list of all locations")
+    @PreAuthorize("hasAuthority('VIEW_LOCATION')")
+    @Operation(summary = "Get all locations", description = "Returns a list of all locations.<br>Requires authority: VIEW_LOCATION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of locations returned successfully"),
     })
@@ -44,7 +46,8 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get location by ID", description = "Returns a specific location by ID")
+    @PreAuthorize("hasAuthority('VIEW_LOCATION')")
+    @Operation(summary = "Get location by ID", description = "Returns a specific location by ID.<br>Requires authority: VIEW_LOCATION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Location returned successfully"),
             @ApiResponse(responseCode = "404", description = "Location not found", content = @Content),
@@ -57,7 +60,8 @@ public class LocationController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new location", description = "Creates and returns a new location")
+    @PreAuthorize("hasAuthority('ADD_LOCATION')")
+    @Operation(summary = "Create a new location", description = "Creates and returns a new location.<br>Requires authority: ADD_LOCATION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Location created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -76,7 +80,8 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update location", description = "Updates an existing location by ID")
+    @PreAuthorize("hasAuthority('EDIT_LOCATION')")
+    @Operation(summary = "Update location", description = "Updates an existing location by ID.<br>Requires authority: EDIT_LOCATION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Location updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -93,7 +98,8 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete location", description = "Deletes an existing location by ID")
+    @PreAuthorize("hasAuthority('DELETE_LOCATION')")
+    @Operation(summary = "Delete location", description = "Deletes an existing location by ID.<br>Requires authority: DELETE_LOCATION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Location deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Location not found", content = @Content),

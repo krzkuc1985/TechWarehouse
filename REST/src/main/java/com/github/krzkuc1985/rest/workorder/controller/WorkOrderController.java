@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,7 +36,8 @@ public class WorkOrderController {
     private final WorkOrderService service;
 
     @GetMapping
-    @Operation(summary = "Get all work orders", description = "Returns a list of all work orders")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER')")
+    @Operation(summary = "Get all work orders", description = "Returns a list of all work orders.<br>Requires authority: VIEW_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of work orders returned successfully"),
     })
@@ -45,7 +47,8 @@ public class WorkOrderController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get work order by ID", description = "Returns a specific work order by ID")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER')")
+    @Operation(summary = "Get work order by ID", description = "Returns a specific work order by ID.<br>Requires authority: VIEW_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order returned successfully"),
             @ApiResponse(responseCode = "404", description = "Work order not found", content = @Content),
@@ -58,7 +61,8 @@ public class WorkOrderController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new work order", description = "Creates and returns a new work order")
+    @PreAuthorize("hasAuthority('ADD_WORK_ORDER')")
+    @Operation(summary = "Create a new work order", description = "Creates and returns a new work order.<br>Requires authority: ADD_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Work order created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -77,7 +81,8 @@ public class WorkOrderController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update work order", description = "Updates a existing work order by ID")
+    @PreAuthorize("hasAuthority('EDIT_WORK_ORDER')")
+    @Operation(summary = "Update work order", description = "Updates a existing work order by ID.<br>Requires authority: EDIT_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -94,7 +99,8 @@ public class WorkOrderController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete work order", description = "Deletes a work order by ID")
+    @PreAuthorize("hasAuthority('DELETE_WORK_ORDER')")
+    @Operation(summary = "Delete work order", description = "Deletes a work order by ID.<br>Requires authority: DELETE_WORK_ORDER")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Work order deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Work order not found", content = @Content),
@@ -107,7 +113,8 @@ public class WorkOrderController {
     }
 
     @GetMapping("/{id}/items")
-    @Operation(summary = "Get items", description = "Returns a list of items for a specific work order")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER_ITEM')")
+    @Operation(summary = "Get items", description = "Returns a list of items for a specific work order.<br>Requires authority: VIEW_WORK_ORDER_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of items returned successfully"),
             @ApiResponse(responseCode = "404", description = "Work order not found", content = @Content),
@@ -120,7 +127,8 @@ public class WorkOrderController {
     }
 
     @PostMapping("/{id}/items")
-    @Operation(summary = "Add item", description = "Adds a new item to a specific work order")
+    @PreAuthorize("hasAuthority('ADD_WORK_ORDER_ITEM')")
+    @Operation(summary = "Add item", description = "Adds a new item to a specific work order.<br>Requires authority: ADD_WORK_ORDER_ITEM")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Work order item added successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),

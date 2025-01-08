@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class MeasurementUnitController {
     private final MeasurementUnitService service;
 
     @GetMapping
-    @Operation(summary = "Get all measurement units", description = "Returns a list of all measurement units")
+    @PreAuthorize("hasAuthority('VIEW_MEASUREMENT_UNIT')")
+    @Operation(summary = "Get all measurement units", description = "Returns a list of all measurement units.<br>Requires authority: VIEW_MEASUREMENT_UNIT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of measurement units returned successfully"),
     })
@@ -44,7 +46,8 @@ public class MeasurementUnitController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get measurement unit by ID", description = "Returns a specific measurement unit by ID")
+    @PreAuthorize("hasAuthority('VIEW_MEASUREMENT_UNIT')")
+    @Operation(summary = "Get measurement unit by ID", description = "Returns a specific measurement unit by ID.<br>Requires authority: VIEW_MEASUREMENT_UNIT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Measurement unit returned successfully"),
             @ApiResponse(responseCode = "404", description = "Measurement unit not found", content = @Content),
@@ -57,7 +60,8 @@ public class MeasurementUnitController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new measurement unit", description = "Creates and returns a new measurement unit")
+    @PreAuthorize("hasAuthority('ADD_MEASUREMENT_UNIT')")
+    @Operation(summary = "Create a new measurement unit", description = "Creates and returns a new measurement unit.<br>Requires authority: ADD_MEASUREMENT_UNIT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Measurement unit created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -76,7 +80,8 @@ public class MeasurementUnitController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a measurement unit", description = "Updates an existing measurement unit by ID")
+    @PreAuthorize("hasAuthority('EDIT_MEASUREMENT_UNIT')")
+    @Operation(summary = "Update a measurement unit", description = "Updates an existing measurement unit by ID.<br>Requires authority: EDIT_MEASUREMENT_UNIT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Measurement unit updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -93,7 +98,8 @@ public class MeasurementUnitController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a measurement unit", description = "Deletes a measurement unit by ID")
+    @PreAuthorize("hasAuthority('DELETE_MEASUREMENT_UNIT')")
+    @Operation(summary = "Delete a measurement unit", description = "Deletes a measurement unit by ID.<br>Requires authority: DELETE_MEASUREMENT_UNIT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Measurement unit deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Measurement unit not found", content = @Content),

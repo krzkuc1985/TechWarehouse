@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,8 @@ public class PermissionController {
     private final PermissionService service;
 
     @GetMapping
-    @Operation(summary = "Get all permissions", description = "Returns a list of all permissions")
+    @PreAuthorize("hasAuthority('VIEW_PERMISSION')")
+    @Operation(summary = "Get all permissions", description = "Returns a list of all permissions.<br>Requires authority: VIEW_PERMISSION")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of permissions returned successfully"),
     })

@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class WorkOrderStatusController {
     private final WorkOrderStatusService service;
 
     @GetMapping
-    @Operation(summary = "Get all work order statuses", description = "Returns a list of all work order statuses")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER_STATUS')")
+    @Operation(summary = "Get all work order statuses", description = "Returns a list of all work order statuses.<br>Requires authority: VIEW_WORK_ORDER_STATUS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of work order statuses returned successfully"),
     })
@@ -44,7 +46,8 @@ public class WorkOrderStatusController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get work order status by ID", description = "Returns a specific work order status by ID")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER_STATUS')")
+    @Operation(summary = "Get work order status by ID", description = "Returns a specific work order status by ID.<br>Requires authority: VIEW_WORK_ORDER_STATUS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order status returned successfully"),
             @ApiResponse(responseCode = "404", description = "Work order status not found", content = @Content),
@@ -57,7 +60,8 @@ public class WorkOrderStatusController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new work order status", description = "Creates and returns a new work order status")
+    @PreAuthorize("hasAuthority('ADD_WORK_ORDER_STATUS')")
+    @Operation(summary = "Create a new work order status", description = "Creates and returns a new work order status.<br>Requires authority: ADD_WORK_ORDER_STATUS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Work order status created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -76,7 +80,8 @@ public class WorkOrderStatusController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update work order status", description = "Updates an existing work order status by ID")
+    @PreAuthorize("hasAuthority('EDIT_WORK_ORDER_STATUS')")
+    @Operation(summary = "Update work order status", description = "Updates an existing work order status by ID.<br>Requires authority: EDIT_WORK_ORDER_STATUS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order status updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -93,7 +98,8 @@ public class WorkOrderStatusController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete work order status", description = "Deletes an existing work order status by ID")
+    @PreAuthorize("hasAuthority('DELETE_WORK_ORDER_STATUS')")
+    @Operation(summary = "Delete work order status", description = "Deletes an existing work order status by ID.<br>Requires authority: DELETE_WORK_ORDER_STATUS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Work order status deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Work order status not found", content = @Content),

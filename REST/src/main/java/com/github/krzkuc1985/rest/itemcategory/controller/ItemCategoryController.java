@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class ItemCategoryController {
     private final ItemCategoryService service;
 
     @GetMapping
-    @Operation(summary = "Get all item categories", description = "Returns a list of all item categories")
+    @PreAuthorize("hasAuthority('VIEW_ITEM_CATEGORY')")
+    @Operation(summary = "Get all item categories", description = "Returns a list of all item categories.<br>Requires authority: VIEW_ITEM_CATEGORY")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of item categories returned successfully"),
     })
@@ -44,7 +46,8 @@ public class ItemCategoryController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get item category by ID", description = "Returns a specific item category by ID")
+    @PreAuthorize("hasAuthority('VIEW_ITEM_CATEGORY')")
+    @Operation(summary = "Get item category by ID", description = "Returns a specific item category by ID.<br>Requires authority: VIEW_ITEM_CATEGORY")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item category returned successfully"),
             @ApiResponse(responseCode = "404", description = "Item category not found", content = @Content),
@@ -57,7 +60,8 @@ public class ItemCategoryController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new item category", description = "Creates and returns a new item category")
+    @PreAuthorize("hasAuthority('ADD_ITEM_CATEGORY')")
+    @Operation(summary = "Create a new item category", description = "Creates and returns a new item category.<br>Requires authority: ADD_ITEM_CATEGORY")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item category created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -76,7 +80,8 @@ public class ItemCategoryController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update item category", description = "Updates an existing item category by ID")
+    @PreAuthorize("hasAuthority('EDIT_ITEM_CATEGORY')")
+    @Operation(summary = "Update item category", description = "Updates an existing item category by ID.<br>Requires authority: EDIT_ITEM_CATEGORY")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item category updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -93,7 +98,8 @@ public class ItemCategoryController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete item category", description = "Deletes a item category by ID")
+    @PreAuthorize("hasAuthority('DELETE_ITEM_CATEGORY')")
+    @Operation(summary = "Delete item category", description = "Deletes a item category by ID.<br>Requires authority: DELETE_ITEM_CATEGORY")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item category deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Item category not found", content = @Content)

@@ -3,6 +3,8 @@ package com.github.krzkuc1985.rest.location.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.krzkuc1985.dto.location.LocationRequest;
 import com.github.krzkuc1985.dto.location.LocationResponse;
+import com.github.krzkuc1985.rest.config.JwtService;
+import com.github.krzkuc1985.rest.config.SecurityConfig;
 import com.github.krzkuc1985.rest.location.service.LocationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -22,11 +26,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Import(SecurityConfig.class)
 @WebMvcTest(LocationController.class)
 class LocationControllerTest {
 
     @MockBean
     private LocationService locationService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,6 +56,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_LOCATION")
     @DisplayName("getAll should return 200 when locations are found")
     void getAll_ReturnsListOfLocations() throws Exception {
         when(locationService.findAll()).thenReturn(List.of(locationResponse));
@@ -60,6 +69,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_LOCATION")
     @DisplayName("getById should return 200 when location is found")
     void getById_ReturnsLocation() throws Exception {
         when(locationService.findById(eq(1L))).thenReturn(locationResponse);
@@ -74,6 +84,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "VIEW_LOCATION")
     @DisplayName("getById should return 404 when location not found")
     void getById_LocationNotFound() throws Exception {
         when(locationService.findById(eq(1L))).thenThrow(EntityNotFoundException.class);
@@ -86,6 +97,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_LOCATION")
     @DisplayName("create should return 201 when location is created")
     void create_ValidLocationRequest() throws Exception {
         when(locationService.create(any(LocationRequest.class))).thenReturn(locationResponse);
@@ -101,6 +113,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ADD_LOCATION")
     @DisplayName("create should return 409 when location already exists")
     void create_LocationAlreadyExists() throws Exception {
         when(locationService.create(any(LocationRequest.class))).thenThrow(DataIntegrityViolationException.class);
@@ -114,6 +127,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_LOCATION")
     @DisplayName("update should return 200 when location is updated")
     void update_ValidLocationRequest() throws Exception {
         when(locationService.update(eq(1L), any(LocationRequest.class))).thenReturn(locationResponse);
@@ -129,6 +143,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_LOCATION")
     @DisplayName("update should return 404 when location not found")
     void update_LocationNotFound() throws Exception {
         when(locationService.update(eq(1L), any(LocationRequest.class))).thenThrow(EntityNotFoundException.class);
@@ -142,6 +157,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_LOCATION")
     @DisplayName("delete should return 204 when location is deleted")
     void delete_LocationExists() throws Exception {
         doNothing().when(locationService).delete(eq(1L));
@@ -153,6 +169,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "DELETE_LOCATION")
     @DisplayName("delete should return 404 when location not found")
     void delete_LocationNotFound() throws Exception {
         doThrow(EntityNotFoundException.class).when(locationService).delete(eq(1L));
@@ -165,6 +182,7 @@ class LocationControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "EDIT_LOCATION")
     @DisplayName("update should return 409 when optimistic lock exception occurs")
     void update_ThrowsOptimisticLockException() throws Exception {
         when(locationService.update(eq(1L), any(LocationRequest.class)))

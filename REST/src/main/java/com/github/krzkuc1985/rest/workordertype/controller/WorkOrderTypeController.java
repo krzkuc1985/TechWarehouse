@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class WorkOrderTypeController {
     private final WorkOrderTypeService service;
 
     @GetMapping
-    @Operation(summary = "Get all work order types", description = "Returns a list of all work order types")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER_TYPE')")
+    @Operation(summary = "Get all work order types", description = "Returns a list of all work order types.<br>Requires authority: VIEW_WORK_ORDER_TYPE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of work order types returned successfully"),
     })
@@ -44,7 +46,8 @@ public class WorkOrderTypeController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get work order type by ID", description = "Returns a specific work order type by ID")
+    @PreAuthorize("hasAuthority('VIEW_WORK_ORDER_TYPE')")
+    @Operation(summary = "Get work order type by ID", description = "Returns a specific work order type by ID.<br>Requires authority: VIEW_WORK_ORDER_TYPE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order type returned successfully"),
             @ApiResponse(responseCode = "404", description = "Work order type not found", content = @Content),
@@ -57,7 +60,8 @@ public class WorkOrderTypeController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new work order type", description = "Creates and returns a new work order type")
+    @PreAuthorize("hasAuthority('ADD_WORK_ORDER_TYPE')")
+    @Operation(summary = "Create a new work order type", description = "Creates and returns a new work order type.<br>Requires authority: ADD_WORK_ORDER_TYPE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Work order type created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -76,7 +80,8 @@ public class WorkOrderTypeController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update work order type", description = "Updates an existing work order type by ID")
+    @PreAuthorize("hasAuthority('EDIT_WORK_ORDER_TYPE')")
+    @Operation(summary = "Update work order type", description = "Updates an existing work order type by ID.<br>Requires authority: EDIT_WORK_ORDER_TYPE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Work order type updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
@@ -93,7 +98,8 @@ public class WorkOrderTypeController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete work order type", description = "Deletes an existing work order type by ID")
+    @PreAuthorize("hasAuthority('DELETE_WORK_ORDER_TYPE')")
+    @Operation(summary = "Delete work order type", description = "Deletes an existing work order type by ID.<br>Requires authority: DELETE_WORK_ORDER_TYPE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Work order type deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Work order type not found", content = @Content),

@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,7 +41,8 @@ public class EmployeeController {
     private final EmployeeService service;
 
     @GetMapping
-    @Operation(summary = "Get all employees", description = "Returns a list of all employees")
+    @PreAuthorize("hasAuthority('VIEW_EMPLOYEE')")
+    @Operation(summary = "Get all employees", description = "Returns a list of all employees.<br>Requires authority: VIEW_EMPLOYEE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of employees returned successfully"),
     })
@@ -50,7 +52,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get employee by ID", description = "Returns a specific employee by ID")
+    @PreAuthorize("hasAuthority('VIEW_EMPLOYEE')")
+    @Operation(summary = "Get employee by ID", description = "Returns a specific employee by ID.<br>Requires authority: VIEW_EMPLOYEE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee returned successfully"),
             @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
@@ -63,7 +66,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    @Operation(summary = "Create employee", description = "Creates a new employee")
+    @PreAuthorize("hasAuthority('ADD_EMPLOYEE')")
+    @Operation(summary = "Create employee", description = "Creates a new employee.<br>Requires authority: ADD_EMPLOYEE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Employee created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid employee data", content = @Content),
@@ -82,7 +86,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update employee", description = "Updates an existing employee")
+    @PreAuthorize("hasAuthority('EDIT_EMPLOYEE')")
+    @Operation(summary = "Update employee", description = "Updates an existing employee.<br>Requires authority: EDIT_EMPLOYEE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid employee data", content = @Content),
@@ -99,7 +104,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete employee", description = "Deletes an existing employee by ID")
+    @PreAuthorize("hasAuthority('DELETE_EMPLOYEE')")
+    @Operation(summary = "Delete employee", description = "Deletes an existing employee by ID.<br>Requires authority: DELETE_EMPLOYEE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Employee deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
@@ -112,7 +118,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}/address")
-    @Operation(summary = "Get employee address", description = "Returns the address of an employee")
+    @PreAuthorize("hasAuthority('VIEW_EMPLOYEE_ADDRESS')")
+    @Operation(summary = "Get employee address", description = "Returns the address of an employee.<br>Requires authority: VIEW_EMPLOYEE_ADDRESS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee address returned successfully"),
             @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
@@ -125,7 +132,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}/address")
-    @Operation(summary = "Update employee address", description = "Updates the address of an existing employee")
+    @PreAuthorize("hasAuthority('EDIT_EMPLOYEE_ADDRESS')")
+    @Operation(summary = "Update employee address", description = "Updates the address of an existing employee.<br>Requires authority: EDIT_EMPLOYEE_ADDRESS")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee address updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid address data", content = @Content),
@@ -142,7 +150,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}/login")
-    @Operation(summary = "Update employee login data", description = "Updates the login data of an existing employee")
+    @PreAuthorize("hasAuthority('EDIT_EMPLOYEE_LOGIN')")
+    @Operation(summary = "Update employee login data", description = "Updates the login data of an existing employee.<br>Requires authority: EDIT_EMPLOYEE_LOGIN")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee login data updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid login data", content = @Content),
@@ -159,7 +168,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}/roles")
-    @Operation(summary = "Get employee roles", description = "Returns the roles assigned to an employee")
+    @PreAuthorize("hasAuthority('VIEW_EMPLOYEE_ROLE')")
+    @Operation(summary = "Get employee roles", description = "Returns the roles assigned to an employee.<br>Requires authority: VIEW_EMPLOYEE_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Employee roles returned successfully"),
             @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content),
@@ -172,7 +182,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/{id}/roles")
-    @Operation(summary = "Assign role to employee", description = "Assigns a role to an employee")
+    @PreAuthorize("hasAuthority('ADD_EMPLOYEE_ROLE')")
+    @Operation(summary = "Assign role to employee", description = "Assigns a role to an employee.<br>Requires authority: ADD_EMPLOYEE_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Role assigned successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid role data", content = @Content),
@@ -189,7 +200,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}/roles")
-    @Operation(summary = "Remove role from employee", description = "Removes a role from an employee")
+    @PreAuthorize("hasAuthority('DELETE_EMPLOYEE_ROLE')")
+    @Operation(summary = "Remove role from employee", description = "Removes a role from an employee.<br>Requires authority: DELETE_EMPLOYEE_ROLE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Role removed successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid role data", content = @Content),
